@@ -10,10 +10,13 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(26))
     name = db.Column(db.String())
     _password_hash = db.Column(db.String(128))
+
+
 
     @hybrid_property
     def password_hash(self):
@@ -30,6 +33,29 @@ class User(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<User {self.username}, {self.name}, {self._password_hash}>'
     
+class Team(db.Model, SerializerMixin):
+    __tablename__ = 'teams'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    logo = db.Column(db.String())
+
+    player = db.relationship('Player', backref='team')
+    staff = db.relationship('Staff', backref='team')
+
+    def __repr__(self):
+        return f'<Team {self.name}, {self.logo}>'
+    
+class League(db.Model, SerializerMixin):
+    __tablename = 'leagues'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    season = db.Column(db.String())
+
+    def __repr__(self):
+        return f'<League {self.name}, {self.season}>'
+    
 
 class Player(db.Model, SerializerMixin):
     __tablename__ = 'players'
@@ -38,6 +64,7 @@ class Player(db.Model, SerializerMixin):
     first_name = db.Column(db.String())
     last_name = db.Column(db.String())
     jersey_number = db.Column(db.Integer)
+
 
     def __repr__(self):
         return f'<Player {self.first_name}, {self.last_name}, {self.jersey_number}>'
@@ -52,16 +79,7 @@ class Staff(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'<Staff {self.first_name}, {self.last_name}>'
-    
-class Team(db.Model, SerializerMixin):
-    __tablename__ = 'teams'
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String())
-    logo = db.Column(db.String())
-
-    def __repr__(self):
-        return f'<Team {self.name}, {self.logo}>'
     
     
 

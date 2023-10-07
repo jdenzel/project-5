@@ -89,8 +89,14 @@ class Game(db.Model, SerializerMixin):
     date = db.Column(db.String())
     location = db.Column(db.String())
 
+    member = db.relationship('User', secondary = 'game_members', backref='game')
+
     def __repr__(self):
         return f'<Game {self.name}, {self.date}, {self.location}>' 
+    
+game_members = db.Table('game_members',
+                        db.Column('game_id', db.Integer, db.ForeignKey('games.id')),
+                        db.Column('user_id', db.Integer, db.ForeignKey('users.id')))
     
 
 

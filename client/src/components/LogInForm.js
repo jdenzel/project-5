@@ -25,4 +25,40 @@ function LoginForm({ onLogin }) {
             }
         });
     }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <div>
+                <label htmlFor="username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    autoComplete="off"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+            </div>
+            <div>
+                <label htmlFor="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            </div>
+            <div>
+                <button type="submit">Login</button>
+                {loading ? <p>Loading...</p> : null}
+            </div>
+            <div>
+                {errors.map((err) => (
+                    <div key={err}>{err}</div>
+                ))}
+            </div>
+        </form>
+    )
 }
+
+export default LoginForm

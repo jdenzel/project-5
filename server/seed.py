@@ -54,3 +54,25 @@ if __name__ == '__main__':
     db.session.commit()
 
     user_objects = User.query.all()
+
+    players = []
+    used_user_ids = set()
+
+    for team in teams:
+        team_players = 0
+        while team_players < 10:
+            while True:
+                user_id = rc(user_objects).id
+                if user_id not in used_user_ids:
+                    used_user_ids.add(user_id)
+                    break
+        player = Player(
+            firstname = fake.first_name(),
+            lastname = fake.last_name(),
+            jersey_number = randint(1, 99),
+            user_id = user_id,
+            team_id = team.id,
+        )
+
+        players.append(player)
+        team_players += 1

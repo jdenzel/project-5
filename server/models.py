@@ -74,13 +74,9 @@ class Player(db.Model, SerializerMixin):
     __tablename__ = 'players'
 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String())
-    last_name = db.Column(db.String())
     jersey_number = db.Column(db.Integer)
 
-    user_id = db.Column(db.Integer, ForeignKey('users.id'), unique=True)
-    team_id = db.Column(db.Integer, ForeignKey('teams.id'))
-
+    profile_id = db.Column(db.Integer, ForeignKey('profiles.id'))
 
     def __repr__(self):
         return f'<Player {self.first_name}, {self.last_name}, {self.jersey_number}>'

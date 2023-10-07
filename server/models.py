@@ -8,6 +8,11 @@ from config import db, bcrypt
 
 # Models go here!
 
+# Association table for games and users. Many to many relationship
+game_members = db.Table('game_members',
+                        db.Column('game_id', db.Integer, db.ForeignKey('games.id')),
+                        db.Column('user_id', db.Integer, db.ForeignKey('users.id')))
+
 #User table
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -93,10 +98,7 @@ class Game(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'<Game {self.name}, {self.date}, {self.location}>' 
-    
-game_members = db.Table('game_members',
-                        db.Column('game_id', db.Integer, db.ForeignKey('games.id')),
-                        db.Column('user_id', db.Integer, db.ForeignKey('users.id')))
+
     
 
 

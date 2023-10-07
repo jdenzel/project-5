@@ -26,3 +26,22 @@ class User(db.Model, SerializerMixin):
 
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
+    
+    def __repr__(self):
+        return f'<User {self.username}, {self.name}, {self._password_hash}>'
+    
+
+class Player(db.Model, SerializerMixin):
+    __tablename__ = 'players'
+
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String())
+    last_name = db.Column(db.String())
+    jersey_number = db.Column(db.Integer)
+
+    def __repr__(self):
+        return f'<Player {self.first_name}, {self.last_name}, {self.jersey_number}>'
+    
+
+
+

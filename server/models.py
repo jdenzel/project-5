@@ -21,7 +21,6 @@ class User(db.Model, SerializerMixin):
     player = db.relationship('Player', backref='user', uselist=False)
     staff = db.relationship('Staff', backref='user', uselist=False)
 
-
     @hybrid_property
     def password_hash(self):
         raise AttributeError

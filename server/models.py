@@ -1,6 +1,8 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 
 from config import db, bcrypt
 
@@ -78,6 +80,17 @@ class Staff(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'<Staff {self.first_name}, {self.last_name}>'
+    
+class Game(db.Model, SerializerMixin):
+    __tablename__ = 'games'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    date = db.Column(db.String())
+    location = db.Column(db.String())
+
+    def __repr__(self):
+        return f'<Game {self.name}, {self.date}, {self.location}>' 
     
 
 

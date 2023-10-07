@@ -11,10 +11,15 @@ class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(26))
-    name = db.Column(db.String())
+    username = db.Column(db.String(26), nullable=False, unique=True)
+    name = db.Column(db.String(), nullable = False)
     _password_hash = db.Column(db.String(128))
 
+    player_id = db.Column(db.Integer, db.ForeignKey('players.id'), unique=True, nullable=True)
+    staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'), unique=True, nullable=True)
+
+    player = db.relationship('Player', backref='user', uselist=False)
+    staff = db.relationship('Staff', backref='user', uselist=False)
 
 
     @hybrid_property
@@ -54,7 +59,7 @@ class Player(db.Model, SerializerMixin):
     last_name = db.Column(db.String())
     jersey_number = db.Column(db.Integer)
 
-
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
 
 
@@ -69,10 +74,14 @@ class Staff(db.Model, SerializerMixin):
     first_name = db.Column(db.String())
     last_name = db.Column(db.String())
 
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
 
     def __repr__(self):
         return f'<Staff {self.first_name}, {self.last_name}>'
+    
+
+
 
     
     

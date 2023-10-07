@@ -79,21 +79,18 @@ class Player(db.Model, SerializerMixin):
     profile_id = db.Column(db.Integer, ForeignKey('profiles.id'))
 
     def __repr__(self):
-        return f'<Player {self.first_name}, {self.last_name}, {self.jersey_number}>'
+        return f'<Player {self.jersey_number}>'
     
 
 class Staff(db.Model, SerializerMixin):
     __tablename__ = 'staff'
     
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String())
-    last_name = db.Column(db.String())
 
-    user_id = db.Column(db.Integer, ForeignKey('users.id'), unique=True)
-    team_id = db.Column(db.Integer, ForeignKey('teams.id'))
+    profile_id = db.Column(db.Integer, ForeignKey('profiles.id'))
 
     def __repr__(self):
-        return f'<Staff {self.first_name}, {self.last_name}>'
+        return f'<Staff id: {self.id}'
     
 class Game(db.Model, SerializerMixin):
     __tablename__ = 'games'

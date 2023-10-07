@@ -7,14 +7,12 @@ from sqlalchemy.orm import relationship
 from config import db, bcrypt
 
 # Models go here!
-# Association table for games and users. Many to many relationship
-game_members = db.Table('game_members',
+# Association table for games and profukes. Many to many relationship
+game_profiles = db.Table('game_profiles',
                         db.Column('game_id', db.Integer, ForeignKey('games.id')),
-                        db.Column('user_id', db.Integer, ForeignKey('users.id')))
+                        db.Column('profile_id', db.Integer, ForeignKey('profiles.id')))
 
-#User table
-
-
+# Profile table
 class Profile(db.Model, SerializerMixin):
     __tablename__ = 'profiles'
 
@@ -30,7 +28,9 @@ class Profile(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'<Profile {self.first_name}, {self.last_name}>'
+    
 
+# User table
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
@@ -56,6 +56,7 @@ class User(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<User {self.username}, {self.name}, {self._password_hash}>'
     
+# Team table
 class Team(db.Model, SerializerMixin):
     __tablename__ = 'teams'
 
@@ -69,7 +70,7 @@ class Team(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Team {self.name}, {self.logo}>'
     
-
+# Player table
 class Player(db.Model, SerializerMixin):
     __tablename__ = 'players'
 
@@ -81,7 +82,7 @@ class Player(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Player {self.jersey_number}>'
     
-
+# Staff table
 class Staff(db.Model, SerializerMixin):
     __tablename__ = 'staff'
     
@@ -92,6 +93,7 @@ class Staff(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Staff id: {self.id}'
     
+# Game table
 class Game(db.Model, SerializerMixin):
     __tablename__ = 'games'
 
@@ -100,14 +102,7 @@ class Game(db.Model, SerializerMixin):
     date = db.Column(db.String())
     location = db.Column(db.String())
 
-    member = relationship('User', secondary = 'game_members', backref='game')
+    profile = relationship('Profile', secondary = 'game_members', backref='game')
 
     def __repr__(self):
         return f'<Game {self.name}, {self.date}, {self.location}>' 
-
-    
-
-
-
-    
-

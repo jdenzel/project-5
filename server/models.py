@@ -43,5 +43,13 @@ class Player(db.Model, SerializerMixin):
         return f'<Player {self.first_name}, {self.last_name}, {self.jersey_number}>'
     
 
+class Staff(db.Model, SerializerMixin):
+    __tablename__ = 'staff'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String())
+    last_name = db.Column(db.String())
 
+    def __repr__(self):
+        return f'<Staff {self.first_name}, {self.last_name}>'
 

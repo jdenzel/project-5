@@ -36,5 +36,68 @@ function SignUpForm({ onLogin }) {
             });
     }
 
-    
+    return (
+        <form onSubmit={handleSubmit}>
+            <div>
+                <label htmlFor="username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    autoComplete="off"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+            </div>
+            <div>
+                <label htmlFor="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            </div>
+            <div>
+                <label htmlFor="passwordConfirmation">Confirm Password</label>
+                <input
+                    type="password"
+                    id="passwordConfirmation"
+                    autoComplete="current-password"
+                    value={passwordConfirmation}
+                    onChange={(e) => setPasswordConfirmation(e.target.value)}
+                />
+            </div>
+            <div>
+                <label htmlFor="firstname">First Name</label>
+                <input
+                    type="text"
+                    id="firstname"
+                    autoComplete="off"
+                    value={firstname}
+                    onChange={(e) => setFirstname(e.target.value)}
+                />
+            </div>
+            <div>
+                <label htmlFor="lastname">Last Name</label>
+                <input
+                    type="text"
+                    id="lastname"
+                    autoComplete="off"
+                    value={lastname}
+                    onChange={(e) => setLastname(e.target.value)}
+                />
+            </div>
+            <div>
+                <button type="submit">{loading ? "Loading..." : "Sign Up"}</button>
+            </div>
+            <div>
+                {errors.map((err) => (
+                    <div key={err}>{err}</div>
+                ))}
+            </div>
+        </form>
+    )
 }
+
+export default SignUpForm;

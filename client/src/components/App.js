@@ -1,8 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import SignUpForm from "./SignUpForm";
 
 function App() {
-  return <h1>Project Client</h1>;
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetch("/check_session").then((r) => {
+      if (r.ok) {
+        r.json().then((user) => setUser(user));
+      }
+    });
+  }, []);
+
+  return (
+    <>
+      <div>
+        <h1>Project</h1>
+      </div>
+      <div>
+        <Router>
+          <Route path="/signup">
+            <SignUpForm />
+          </Route>
+        </Router>
+      </div>
+    </>
+  );
 }
 
 export default App;

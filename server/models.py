@@ -10,7 +10,6 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(26))
     name = db.Column(db.String())
@@ -46,16 +45,6 @@ class Team(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Team {self.name}, {self.logo}>'
     
-class League(db.Model, SerializerMixin):
-    __tablename = 'leagues'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String())
-    season = db.Column(db.String())
-
-    def __repr__(self):
-        return f'<League {self.name}, {self.season}>'
-    
 
 class Player(db.Model, SerializerMixin):
     __tablename__ = 'players'
@@ -64,6 +53,7 @@ class Player(db.Model, SerializerMixin):
     first_name = db.Column(db.String())
     last_name = db.Column(db.String())
     jersey_number = db.Column(db.Integer)
+
 
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
 

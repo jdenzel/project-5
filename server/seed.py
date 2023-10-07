@@ -26,6 +26,7 @@ if __name__ == '__main__':
 
         users = []
         usernames = []
+        profiles = []
 
         for i in range(48):
             username = fake.user_name()
@@ -39,20 +40,23 @@ if __name__ == '__main__':
             user.password_hash = user.username + 'password'
 
             users.append(user)
-        db.session.add_all(users)
-        db.session.commit()
 
-        profiles = []
-        for i in range(48):
+            # profiles = []
             profile = Profile(
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
             )
             profiles.append(profile)
 
+            user.profile = profile
+
+
         db.session.add_all(profiles)
         db.session.commit()
 
+
+        db.session.add_all(users)
+        db.session.commit()
 
         teams = []
         used_profiles = []
@@ -61,6 +65,12 @@ if __name__ == '__main__':
                 name=fake.word(),
                 logo=fake.image_url(),
             )
+            teams.append(team)
+            db.session.add_all(teams)
+        
+        db.session.commit()
+        
+        for team in teams:
             players = []
             for profile in profiles:
                 if profile not in used_profiles:
@@ -71,6 +81,7 @@ if __name__ == '__main__':
                     )
                     players.append(player)
                     used_profiles.append(profile)
+                    db.session.add(player) 
                     if len(players) == 10:
                         break
             
@@ -83,14 +94,25 @@ if __name__ == '__main__':
                     )
                     staff_members.append(staff)
                     used_profiles.append(profile)
+                    db.session.add(staff) 
                     if len(staff_members) == 2:
                         break
 
-            teams.append(team)
-            db.session.add_all(players)
-            db.session.add_all(staff_members)
-            db.session.add_all(teams)
         db.session.commit()
+            
+        for profile in profiles:
+            player = Player.query.filter_by(profile_id=profile.id).first()
+            staff = Staff.query.filter_by(profile_id=profile.id).first()
+
+            if player:
+                profile.player_id = player.id
+
+            if staff:
+                profile.staff_id = staff.id
+
+
+        db.session.commit()
+
 
         games = []
 
@@ -104,7 +126,6 @@ if __name__ == '__main__':
         db.session.add_all(games)
         db.session.commit()
 
-        print(used_profiles)
 
 
 

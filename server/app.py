@@ -45,10 +45,22 @@ class Signup(Resource):
                     new_profile.to_dict(), 201
             )
         else:
-            return {'error': 'Missing data'}, 400
+            return {'error': 'Unprocessable Entity'}, 400
+        
+
+class CheckSession(Resource):
+    def get(self):
+        if session.get('user_id'):
+            user = User.query.filter(User.id == session['user_id']).first()
+            return user.to_dict()
+        else:
+            return {'error': 'Unauthorized'}, 401
+        
+
         
 api.add_resource(Signup, '/signup', endpoint='signup')
-    
+api.add_resource(CheckSession, '/check_session', endpoint='check_session')
+
 
 
 if __name__ == '__main__':

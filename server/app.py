@@ -57,10 +57,23 @@ class CheckSession(Resource):
             return {'error': 'Unauthorized'}, 401
         
 
+class Login(Resource):
+    def post(self):
+        username = request.get_json()['username']
+        password = request.get_json()['password']
+
+        user = User.query.filter(User.username == username).first()
+
+        if user and user.authenticate(password):
+            session['user_id'] = user.id
+            return user.to_dict(), 200
+        else:
+            return {'error': 'Unauthorized'}, 401
+        
         
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
-
+api.add_resource(Login, '/login', endpoint='login')
 
 
 if __name__ == '__main__':

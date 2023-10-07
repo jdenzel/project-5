@@ -14,6 +14,23 @@ game_members = db.Table('game_members',
 
 #User table
 
+
+class Profile(db.Model, SerializerMixin):
+    __tablename__ = 'profiles'
+
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String())
+    last_name = db.Column(db.String())
+
+    player_id = db.Column(db.Integer, ForeignKey('players.id'), unique=True, nullable=True)
+    staff_id = db.Column(db.Integer, ForeignKey('staff.id'), unique=True, nullable=True)
+
+    player = relationship('Player', backref='profile', uselist=False, foreign_keys=[player_id])
+    staff = relationship('Staff', backref='profile', uselist=False, foreign_keys=[staff_id])
+
+    def __repr__(self):
+        return f'<Profile {self.first_name}, {self.last_name}>'
+
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 

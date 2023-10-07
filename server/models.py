@@ -54,10 +54,14 @@ class Staff(db.Model, SerializerMixin):
         return f'<Staff {self.first_name}, {self.last_name}>'
     
 class Team(db.Model, SerializerMixin):
+    __tablename__ = 'teams'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
     logo = db.Column(db.String())
 
     def __repr__(self):
         return f'<Team {self.name}, {self.logo}>'
+    
+    
 

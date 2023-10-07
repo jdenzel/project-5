@@ -104,7 +104,7 @@ class Game(db.Model, SerializerMixin):
     date = db.Column(db.String())
     location = db.Column(db.String())
 
-    profile = relationship('Profile', secondary = 'game_members', backref='game')
+    profile = relationship('Profile', secondary = 'game_profiles', backref='game')
 
     def __repr__(self):
         return f'<Game {self.name}, {self.date}, {self.location}>' 

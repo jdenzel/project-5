@@ -16,6 +16,7 @@ if __name__ == '__main__':
     with app.app_context():
         print("Starting seed...")
         # Seed code goes here!)
+        Profile.query.delete()
         User.query.delete()
         Team.query.delete()
         Player.query.delete()
@@ -38,7 +39,7 @@ if __name__ == '__main__':
             user.password_hash = user.username + 'password'
 
             users.append(user)
-        db.session.add(user)
+        db.session.add_all(users)
         db.session.commit()
 
         profiles = []
@@ -51,6 +52,7 @@ if __name__ == '__main__':
 
         db.session.add_all(profiles)
         db.session.commit()
+
 
         teams = []
         used_profiles = []
@@ -81,14 +83,28 @@ if __name__ == '__main__':
                     )
                     staff_members.append(staff)
                     used_profiles.append(profile)
-                    if len(staff) == 2:
+                    if len(staff_members) == 2:
                         break
 
             teams.append(team)
+            db.session.add_all(players)
+            db.session.add_all(staff_members)
             db.session.add_all(teams)
         db.session.commit()
 
+        games = []
 
+        for i in range(4):
+            game = Game(
+                name = fake.word(),
+                date = fake.date_this_year(),
+                location = fake.city()
+            )
+            games.append(game)
+        db.session.add_all(games)
+        db.session.commit()
+
+        print(used_profiles)
 
 
 

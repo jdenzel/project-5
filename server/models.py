@@ -10,8 +10,8 @@ from config import db, bcrypt
 
 # Association table for games and users. Many to many relationship
 game_members = db.Table('game_members',
-                        db.Column('game_id', db.Integer, db.ForeignKey('games.id')),
-                        db.Column('user_id', db.Integer, db.ForeignKey('users.id')))
+                        db.Column('game_id', db.Integer, ForeignKey('games.id')),
+                        db.Column('user_id', db.Integer, ForeignKey('users.id')))
 
 #User table
 class User(db.Model, SerializerMixin):
@@ -22,11 +22,11 @@ class User(db.Model, SerializerMixin):
     name = db.Column(db.String(), nullable = False)
     _password_hash = db.Column(db.String(128))
 
-    player_id = db.Column(db.Integer, db.ForeignKey('players.id'), unique=True, nullable=True)
-    staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'), unique=True, nullable=True)
+    player_id = db.Column(db.Integer, ForeignKey('players.id'), unique=True, nullable=True)
+    staff_id = db.Column(db.Integer, ForeignKey('staff.id'), unique=True, nullable=True)
 
-    player = db.relationship('Player', backref='user', uselist=False)
-    staff = db.relationship('Staff', backref='user', uselist=False)
+    player = relationship('Player', backref='user', uselist=False)
+    staff = relationship('Staff', backref='user', uselist=False)
 
     @hybrid_property
     def password_hash(self):
@@ -50,8 +50,8 @@ class Team(db.Model, SerializerMixin):
     name = db.Column(db.String())
     logo = db.Column(db.String())
 
-    player = db.relationship('Player', backref='team')
-    staff = db.relationship('Staff', backref='team')
+    player = relationship('Player', backref='team')
+    staff = relationship('Staff', backref='team')
 
     def __repr__(self):
         return f'<Team {self.name}, {self.logo}>'
@@ -65,8 +65,8 @@ class Player(db.Model, SerializerMixin):
     last_name = db.Column(db.String())
     jersey_number = db.Column(db.Integer)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
-    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), unique=True)
+    team_id = db.Column(db.Integer, ForeignKey('teams.id'))
 
 
     def __repr__(self):
@@ -80,8 +80,8 @@ class Staff(db.Model, SerializerMixin):
     first_name = db.Column(db.String())
     last_name = db.Column(db.String())
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
-    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), unique=True)
+    team_id = db.Column(db.Integer, ForeignKey('teams.id'))
 
     def __repr__(self):
         return f'<Staff {self.first_name}, {self.last_name}>'
@@ -94,7 +94,7 @@ class Game(db.Model, SerializerMixin):
     date = db.Column(db.String())
     location = db.Column(db.String())
 
-    member = db.relationship('User', secondary = 'game_members', backref='game')
+    member = relationship('User', secondary = 'game_members', backref='game')
 
     def __repr__(self):
         return f'<Game {self.name}, {self.date}, {self.location}>' 

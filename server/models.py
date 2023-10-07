@@ -78,6 +78,7 @@ class Player(db.Model, SerializerMixin):
     jersey_number = db.Column(db.Integer)
 
     profile_id = db.Column(db.Integer, ForeignKey('profiles.id'))
+    team_id = db.Column(db.Integer, ForeignKey('teams.id'))
 
     def __repr__(self):
         return f'<Player {self.jersey_number}>'
@@ -89,6 +90,7 @@ class Staff(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
 
     profile_id = db.Column(db.Integer, ForeignKey('profiles.id'))
+    team_id = db.Column(db.Integer, ForeignKey('teams.id'))
 
     def __repr__(self):
         return f'<Staff id: {self.id}'

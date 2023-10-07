@@ -9,7 +9,7 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, User, Team, Player, Staff, Game
+from models import db, Profile, User, Team, Player, Staff, Game
 
 if __name__ == '__main__':
     fake = Faker()
@@ -25,13 +25,11 @@ if __name__ == '__main__':
 
         users = []
         usernames = []
-        teams = []
 
-        for i in range(20):
-            
-            username = fake.first_name()
+        for i in range(48):
+            username = fake.user_name()
             while username in usernames:
-                username = fake.first_name()
+                username = fake.user_name()
             usernames.append(username)
 
             user = User(
@@ -40,73 +38,58 @@ if __name__ == '__main__':
             user.password_hash = user.username + 'password'
 
             users.append(user)
+        db.session.add(user)
+        db.session.commit()
 
-        db.session.add_all(users)
+        profiles = []
+        for i in range(48):
+            profile = Profile(
+                first_name=fake.first_name(),
+                last_name=fake.last_name(),
+            )
+            profiles.append(profile)
 
+        db.session.add_all(profiles)
+        db.session.commit()
+
+        teams = []
+        used_profiles = []
         for i in range(4):
             team = Team(
-                        name = fake.company(),
-                        logo = fake.image_url()
+                name=fake.word(),
+                logo=fake.image_url(),
             )
+            players = []
+            for profile in profiles:
+                if profile not in used_profiles:
+                    player = Player(
+                        jersey_number=randint(1, 99),
+                        profile_id=profile.id,
+                        team_id=team.id
+                    )
+                    players.append(player)
+                    used_profiles.append(profile)
+                    if len(players) == 10:
+                        break
+            
+            staff_members = []
+            for profile in profiles:
+                if profile not in used_profiles:
+                    staff = Staff(
+                        profile_id=profile.id,
+                        team_id=team.id
+                    )
+                    staff_members.append(staff)
+                    used_profiles.append(profile)
+                    if len(staff) == 2:
+                        break
+
             teams.append(team)
-        
-        db.session.add_all(users)
-        db.session.add_all(teams)
+            db.session.add_all(teams)
         db.session.commit()
 
-        chosen_user_ids = set()
 
-        players = []
 
-        for team in teams:
-            for i in range(10):
-                user = rc(users)
-                while user.id in chosen_user_ids:
-                    user = rc(users)
-                chosen_user_ids.add(user.id)
-                player = Player(
-                                first_name = fake.first_name(),
-                                last_name = fake.last_name(),
-                                jersey_number = randint(1, 99),
-                                user_id = user.id,
-                                team_id = team.id
-                )
-                players.append(player)
 
-        db.session.add_all(players)
-        db.session.commit()
 
-        staff_members = []
-
-        for team in teams:
-            for i in range(2):
-                user = rc(users)
-                while user.id in chosen_user_ids:
-                    user = rc(users)
-                chosen_user_ids.add(user.id)
-                staff_member = Staff(
-                                    first_name = fake.first_name(),
-                                    last_name = fake.last_name(),
-                                    user_id = user.id,
-                                    team_id = teams.id
-                )
-                staff_members.append(staff_member)
-        
-        db.session.add_all(staff_members)
-        db.session.commit()
-
-        games = []
-
-        for i in range(5):
-            game = Game(
-                        name = fake.word(),
-                        date = fake.date(),
-                        location = fake.address()
-            )
-            games.append(game)
-    
-        
-        db.session.add_all(games)
-        db.session.commit()
-    
-    print("Done!")
+        print("Done!")

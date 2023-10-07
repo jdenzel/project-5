@@ -76,3 +76,23 @@ if __name__ == '__main__':
 
         players.append(player)
         team_players += 1
+
+    team_staff_members = 0
+    while team_staff_members < 5:
+        while True:
+            user_id = rc(user_objects).id
+            if user_id not in used_user_ids:
+                used_user_ids.add(user_id)
+                break
+        staff = Staff(
+            firstname = fake.first_name(),
+            lastname = fake.last_name(),
+            user_id = user_id,
+            team_id = team.id,
+        )
+        team_staff_members.append(staff)
+        team_staff_members += 1
+    
+    db.session.add_all(players)
+    db.session.add_all(staff)
+    db.session.commit()

@@ -38,11 +38,8 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String(26), nullable=False, unique=True)
     _password_hash = db.Column(db.String(128))
 
-    player_id = db.Column(db.Integer, ForeignKey('players.id'), unique=True, nullable=True)
-    staff_id = db.Column(db.Integer, ForeignKey('staff.id'), unique=True, nullable=True)
-
-    player = relationship('Player', backref='user', uselist=False, foreign_keys=[player_id])
-    staff = relationship('Staff', backref='user', uselist=False, foreign_keys=[staff_id])
+    profile_id = db.Column(db.Integer, ForeignKey('profiles.id'), unique=True)
+    profile = relationship('Profile', backref='user', uselist=False)
 
     @hybrid_property
     def password_hash(self):

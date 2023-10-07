@@ -25,6 +25,8 @@ if __name__ == '__main__':
             )
             users.append(user)
 
+        db.session.add_all(users)
+
         teams = []
 
         for i in range(4):
@@ -33,6 +35,8 @@ if __name__ == '__main__':
                         logo = fake.image_url()
             )
             teams.append(team)
+        
+        db.session.add_all(teams)
 
         players = []
 
@@ -47,6 +51,8 @@ if __name__ == '__main__':
                 )
                 players.append(player)
 
+            db.session.add_all(players)
+
         staff_members = []
 
         for team in teams:
@@ -59,5 +65,18 @@ if __name__ == '__main__':
                 )
                 staff_members.append(staff_member)
         
+        db.session.add_all(staff_members)
 
+        games = []
+
+        for i in range(5):
+            game = Game(
+                        name = fake.word(),
+                        date = fake.date(),
+                        location = fake.address()
+            )
+            games.append(game)
     
+        
+        db.session.add_all(games)
+        db.session.commit()

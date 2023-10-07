@@ -7,13 +7,13 @@ from sqlalchemy.orm import relationship
 from config import db, bcrypt
 
 # Models go here!
-
 # Association table for games and users. Many to many relationship
 game_members = db.Table('game_members',
                         db.Column('game_id', db.Integer, ForeignKey('games.id')),
                         db.Column('user_id', db.Integer, ForeignKey('users.id')))
 
 #User table
+
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
@@ -102,6 +102,5 @@ class Game(db.Model, SerializerMixin):
 
 
 
-    
     
 

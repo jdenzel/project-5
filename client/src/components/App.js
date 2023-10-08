@@ -19,16 +19,19 @@ function App() {
 
   return (
     <>
-      <div>
-        <h1>Project</h1>
-      </div>
-      <div>
-        <Router>
-          <Route path="/signup">
-            <SignUpForm />
-          </Route>
-        </Router>
-      </div>
+    <NavBar  user={user} setUser={setUser} />
+    <main>
+        <div>
+          <h1>Project</h1>
+        </div>
+        <div>
+          <Router>
+            <Route path="/signup">
+              <SignUpForm />
+            </Route>
+          </Router>
+        </div>
+      </main>
     </>
   );
 }

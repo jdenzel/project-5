@@ -6,7 +6,7 @@ function SignUpForm({ onLogin }) {
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
-    const [player_staff, setPlayer_staff] = useState("");
+    const [player_or_staff, setPlayer_or_staff] = useState("");
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -24,9 +24,9 @@ function SignUpForm({ onLogin }) {
                 username,
                 password,
                 password_confirmation: passwordConfirmation,
-                firstname,
-                lastname,
-                player_staff,
+                first_name: firstname,
+                last_name: lastname,
+                player_or_staff,
                 }),
             }).then((r) => {
                 setLoading(false);
@@ -97,8 +97,8 @@ function SignUpForm({ onLogin }) {
                         <input
                             type="radio"
                             value="player"
-                            checked={player_staff === "player"}
-                            onChange={(e) => setPlayer_staff(e.target.value)}
+                            checked={player_or_staff === "player"}
+                            onChange={(e) => setPlayer_or_staff(e.target.value)}
                         />
                         Player
                     </label>
@@ -108,8 +108,8 @@ function SignUpForm({ onLogin }) {
                         <input
                             type="radio"
                             value="staff"
-                            checked={player_staff === "staff"}
-                            onChange={(e) => setPlayer_staff(e.target.value)}
+                            checked={player_or_staff === "staff"}
+                            onChange={(e) => setPlayer_or_staff(e.target.value)}
                         />
                         Staff
                     </label>

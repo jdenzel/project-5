@@ -12,10 +12,10 @@ import secrets
 
 
 # Local imports
-secret_key = secrets.token_urlsafe(32)
+SECRET_KEY = secrets.token_urlsafe(32)
 # Instantiate app, set attributes
 app = Flask(__name__)
-app.secret_key = secret_key
+app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False

@@ -29,31 +29,19 @@ class Signup(Resource):
                 username=username,
             )
             new_user.password_hash = password
-            db.session.add(new_user)
-            db.session.commit()
-            session['user_id'] = new_user.id
-
+            
             if player_or_staff == 'player':
                 player = Player()
-                db.session.add(player)
-                db.session.commit()
-
-                profile = Profile(
-                    first_name=first_name,
-                    last_name=last_name,
-                    player = player
-                )
+                profile = Profile(first_name = first_name , last_name=last_name, player=player)
             elif player_or_staff == 'staff':
                 staff = Staff()
-                db.session.add(staff)
-                db.session.commit()
+                profile = Profile(first_name = first_name , last_name=last_name, staff=staff)
 
-                profile = Profile(
-                    first_name=first_name,
-                    last_name=last_name,
-                    staff = staff
-                )
+            session['user_id'] = new_user.id
+
             db.session.add(profile)
+            db.session.add(new_user)
+            
             db.session.commit()
 
             return (

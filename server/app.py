@@ -39,6 +39,8 @@ class Signup(Resource):
 
             session['user_id'] = new_user.id
 
+            new_user.profile = profile
+
             db.session.add(profile)
             db.session.add(new_user)
             

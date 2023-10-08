@@ -1,8 +1,8 @@
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
+from schemas import ProfileSchema, UserSchema, TeamSchema, PlayerSchema, StaffSchema, GameSchema
 
 from config import db, bcrypt
 
@@ -13,7 +13,7 @@ game_profiles = db.Table('game_profiles',
                         db.Column('profile_id', db.Integer, ForeignKey('profiles.id')))
 
 # Profile table
-class Profile(db.Model, SerializerMixin):
+class Profile(db.Model):
     __tablename__ = 'profiles'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -29,9 +29,21 @@ class Profile(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Profile {self.first_name}, {self.last_name}>'
     
+    def serialize(self):
+        return ProfileSchema().dump(self)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'player': self.player.to_dict() if self.player else None,
+            'staff': self.staff.to_dict() if self.staff else None
+        }
+    
 
 # User table
-class User(db.Model, SerializerMixin):
+class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -56,8 +68,18 @@ class User(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<User {self.username}, {self.name}, {self._password_hash}>'
     
+    def serialize(self):
+        return UserSchema().dump(self)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'profile': self.profile.to_dict()
+        }
+    
 # Team table
-class Team(db.Model, SerializerMixin):
+class Team(db.Model):
     __tablename__ = 'teams'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -70,8 +92,20 @@ class Team(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Team {self.name}, {self.logo}>'
     
+    def serialize(self):
+        return TeamSchema().dump(self)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'logo': self.logo,
+            'players': [player.to_dict() for player in self.player],
+            'staff': [staff.to_dict() for staff in self.staff]
+        }
+    
 # Player table
-class Player(db.Model, SerializerMixin):
+class Player(db.Model):
     __tablename__ = 'players'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -83,8 +117,19 @@ class Player(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Player {self.jersey_number}>'
     
+    def serialize(self):
+        return PlayerSchema().dump(self)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'jersey_number': self.jersey_number,
+            'profile': self.profile.to_dict(),
+            'team': self.team.to_dict()
+        }
+    
 # Staff table
-class Staff(db.Model, SerializerMixin):
+class Staff(db.Model):
     __tablename__ = 'staff'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -95,8 +140,18 @@ class Staff(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Staff id: {self.id}'
     
+    def serialize(self):
+        return StaffSchema().dump(self)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'profile': self.profile.to_dict(),
+            'team': self.team.to_dict()
+        }
+    
 # Game table
-class Game(db.Model, SerializerMixin):
+class Game(db.Model):
     __tablename__ = 'games'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -108,3 +163,15 @@ class Game(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'<Game {self.name}, {self.date}, {self.location}>' 
+    
+    def serialize(self):
+        return GameSchema().dump(self)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'date': self.date,
+            'location': self.location,
+            'players': [profile.to_dict() for profile in self.profile]
+        }

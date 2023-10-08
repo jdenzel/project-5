@@ -33,16 +33,32 @@ class Signup(Resource):
             db.session.commit()
             session['user_id'] = new_user.id
 
-            new_profile = Profile(
-                first_name=first_name,
-                last_name=last_name,
-                player_or_staff=player_or_staff,
-            )
+            if player_or_staff == 'player':
+                player = Player()
+                db.session.add(player)
+                db.session.commit()
 
+                profile = Profile(
+                    first_name=first_name,
+                    last_name=last_name,
+                    player = player
+                )
+            elif player_or_staff == 'staff':
+                staff = Staff()
+                db.session.add(staff)
+                db.session.commit()
+
+                profile = Profile(
+                    first_name=first_name,
+                    last_name=last_name,
+                    staff = staff
+                )
+            db.session.add(profile)
+            db.session.commit()
 
             return (
                     new_user.to_dict(), 201,
-                    new_profile.to_dict(), 201
+                    profile.to_dict(), 201
             )
         else:
             return {'error': 'Unprocessable Entity'}, 400

@@ -7,7 +7,7 @@ from schemas import ProfileSchema, UserSchema, TeamSchema, PlayerSchema, StaffSc
 from config import db, bcrypt
 
 # Models go here!
-# Association table for games and profukes. Many to many relationship
+# Association table for games and profiles. Many to many relationship
 game_profiles = db.Table('game_profiles',
                         db.Column('game_id', db.Integer, ForeignKey('games.id')),
                         db.Column('profile_id', db.Integer, ForeignKey('profiles.id')))
@@ -23,8 +23,8 @@ class Profile(db.Model):
     player_id = db.Column(db.Integer, ForeignKey('players.id'), unique=True, nullable=True)
     staff_id = db.Column(db.Integer, ForeignKey('staff.id'), unique=True, nullable=True)
 
-    player = relationship('Player', backref='profile', uselist=False, foreign_keys=[player_id])
-    staff = relationship('Staff', backref='profile', uselist=False, foreign_keys=[staff_id])
+    player = relationship('Player', back_populates='profile', uselist=False, foreign_keys=[player_id])
+    staff = relationship('Staff', back_populates='profile', uselist=False, foreign_keys=[staff_id])
 
     def __repr__(self):
         return f'<Profile {self.first_name}, {self.last_name}>'
@@ -86,8 +86,8 @@ class Team(db.Model):
     name = db.Column(db.String())
     logo = db.Column(db.String())
 
-    player = relationship('Player', backref='team')
-    staff = relationship('Staff', backref='team')
+    players = relationship('Player', back_populates='team')
+    staff = relationship('Staff', back_populates='team')
 
     def __repr__(self):
         return f'<Team {self.name}, {self.logo}>'
@@ -111,8 +111,11 @@ class Player(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     jersey_number = db.Column(db.Integer)
 
-    profile_id = db.Column(db.Integer, ForeignKey('profiles.id'))
+    profile_id = db.Column(db.Integer, ForeignKey('profiles.id'), unique=True)
     team_id = db.Column(db.Integer, ForeignKey('teams.id'))
+
+    profile = relationship('Profile', back_populates='player', uselist=False, foreign_keys=[profile_id])
+    team = relationship('Team', back_populates='player', uselist=False, foreign_keys=[team_id])
 
     def __repr__(self):
         return f'<Player {self.jersey_number}>'
@@ -134,8 +137,13 @@ class Staff(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
 
-    profile_id = db.Column(db.Integer, ForeignKey('profiles.id'))
+    profile_id = db.Column(db.Integer, ForeignKey('profiles.id'), unique=True)
     team_id = db.Column(db.Integer, ForeignKey('teams.id'))
+
+    profile = db.relationship('Profile', back_populates='staff', uselist=False, foreign_keys=[profile_id])
+    team = relationship('Team', back_populates='staff', uselist=False, foreign_keys=[team_id])
+
+
 
     def __repr__(self):
         return f'<Staff id: {self.id}'
@@ -146,7 +154,7 @@ class Staff(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'profile': self.profile.to_dict(),
+            'profile': [profile.to_dict() for profile in self.profiles] if self.profiles else [],
             'team': self.team.to_dict()
         }
     

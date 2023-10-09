@@ -43,6 +43,8 @@ class Signup(Resource):
 
             db.session.add(profile)
             db.session.add(new_user)
+
+            print(profile.to_dict())
             
             db.session.commit()
 

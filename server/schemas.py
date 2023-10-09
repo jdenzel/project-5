@@ -22,6 +22,6 @@ class LeagueSchema(Schema):
     id = fields.Int()
     name = fields.Str()
     logo = fields.Str()
-    profile = fields.Nested(ProfileSchema)
+    user = fields.Nested(UserSchema)
 
 

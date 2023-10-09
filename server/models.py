@@ -2,56 +2,17 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
-from schemas import ProfileSchema, UserSchema, TeamSchema, PlayerSchema, StaffSchema, GameSchema
+from schemas import UserSchema, ProfileSchema, TeamSchema, LeagueSchema
 
 from config import db, bcrypt
 
 # Models go here!
-# Association table for games and profiles. Many to many relationship
-game_profiles = db.Table('game_profiles',
-                        db.Column('game_id', db.Integer, ForeignKey('games.id')),
-                        db.Column('profile_id', db.Integer, ForeignKey('profiles.id')))
 
-# Profile table
-class Profile(db.Model):
-    __tablename__ = 'profiles'
-
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String())
-    last_name = db.Column(db.String())
-
-    player_id = db.Column(db.Integer, ForeignKey('players.id'), unique=True, nullable=True)
-    staff_id = db.Column(db.Integer, ForeignKey('staff.id'), unique=True, nullable=True)
-
-    player = relationship('Player', back_populates='profile', uselist=False, foreign_keys=[player_id])
-    staff = relationship('Staff', back_populates='profile', uselist=False, foreign_keys=[staff_id])
-
-    def __repr__(self):
-        return f'<Profile {self.first_name}, {self.last_name}>'
-    
-    def serialize(self):
-        return ProfileSchema().dump(self)
-    
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-            'player': self.player.to_dict() if self.player else None,
-            'staff': self.staff.to_dict() if self.staff else None
-        }
-    
-
-# User table
 class User(db.Model):
-    __tablename__ = 'users'
-
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(26), nullable=False, unique=True)
-    _password_hash = db.Column(db.String(128))
-
-    profile_id = db.Column(db.Integer, ForeignKey('profiles.id'), unique=True)
-    profile = relationship('Profile', backref='user', uselist=False)
+    username = db.Column(db.String(50), nullable=False, unique=True)
+    _password_hash = db.Column(db.String(128), nullable=False)
+    role = db.Column(db.String())
 
     @hybrid_property
     def password_hash(self):
@@ -66,120 +27,35 @@ class User(db.Model):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
     
     def __repr__(self):
-        return f'<User {self.username}, {self.name}, {self._password_hash}>'
-    
-    def serialize(self):
-        return UserSchema().dump(self)
-    
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'username': self.username,
-            'profile': self.profile.to_dict()
-        }
-    
-# Team table
-class Team(db.Model):
-    __tablename__ = 'teams'
+        return f'<User: {self.username}, {self._password_hash}, {self.role}>'
 
+class Profile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(50))
+    last_name = db.Column(db.String())
+    image_url = db.Column(db.String())
+    bio = db.Column(db.String())
+
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref=db.backref('profile'), uselist=False)
+
+
+    def __repr__(self):
+        return f'<Profile: {self.first_name}, {self.last_name}, {self.image_url}, {self.bio}>'
+    
+class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
     logo = db.Column(db.String())
 
-    players = relationship('Player', back_populates='team')
-    staff = relationship('Staff', back_populates='team')
-
     def __repr__(self):
-        return f'<Team {self.name}, {self.logo}>'
-    
-    def serialize(self):
-        return TeamSchema().dump(self)
-    
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'logo': self.logo,
-            'players': [player.to_dict() for player in self.player],
-            'staff': [staff.to_dict() for staff in self.staff]
-        }
-    
-# Player table
-class Player(db.Model):
-    __tablename__ = 'players'
+        return f'<Team: {self.name}, {self.logo}>'  
 
-    id = db.Column(db.Integer, primary_key=True)
-    jersey_number = db.Column(db.Integer)
-
-    profile_id = db.Column(db.Integer, ForeignKey('profiles.id'), unique=True)
-    team_id = db.Column(db.Integer, ForeignKey('teams.id'))
-
-    profile = relationship('Profile', back_populates='player', uselist=False, foreign_keys=[profile_id])
-    team = relationship('Team', back_populates='player', uselist=False, foreign_keys=[team_id])
-
-    def __repr__(self):
-        return f'<Player {self.jersey_number}>'
-    
-    def serialize(self):
-        return PlayerSchema().dump(self)
-    
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'jersey_number': self.jersey_number,
-            'profile': self.profile.to_dict(),
-            'team': self.team.to_dict()
-        }
-    
-# Staff table
-class Staff(db.Model):
-    __tablename__ = 'staff'
-    
-    id = db.Column(db.Integer, primary_key=True)
-
-    profile_id = db.Column(db.Integer, ForeignKey('profiles.id'), unique=True)
-    team_id = db.Column(db.Integer, ForeignKey('teams.id'))
-
-    profile = db.relationship('Profile', back_populates='staff', uselist=False, foreign_keys=[profile_id])
-    team = relationship('Team', back_populates='staff', uselist=False, foreign_keys=[team_id])
-
-
-
-    def __repr__(self):
-        return f'<Staff id: {self.id}'
-    
-    def serialize(self):
-        return StaffSchema().dump(self)
-    
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'profile': [profile.to_dict() for profile in self.profiles] if self.profiles else [],
-            'team': self.team.to_dict()
-        }
-    
-# Game table
-class Game(db.Model):
-    __tablename__ = 'games'
-
+class League(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
-    date = db.Column(db.String())
-    location = db.Column(db.String())
-
-    profile = relationship('Profile', secondary = 'game_profiles', backref='game')
+    logo = db.Column(db.String())
 
     def __repr__(self):
-        return f'<Game {self.name}, {self.date}, {self.location}>' 
-    
-    def serialize(self):
-        return GameSchema().dump(self)
-    
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'date': self.date,
-            'location': self.location,
-            'players': [profile.to_dict() for profile in self.profile]
-        }
+        return f'<League: {self.name}, {self.logo}>'

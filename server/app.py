@@ -83,6 +83,7 @@ api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(TeamList, '/teams', endpoint='teams')
+api.add_resource(ProfileList, '/profiles', endpoint='profiles')
 
 
 if __name__ == '__main__':

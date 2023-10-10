@@ -4,6 +4,7 @@ import SignUpForm from "./SignUpForm";
 import Login from "./Login";
 import NavBar from "./NavBar";
 import Teams from "./Teams";
+import Profiles from "./Profiles";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -32,6 +33,9 @@ function App() {
             </Route>
             <Route path="/teams">
               <Teams />
+            </Route>
+            <Route path="/profiles">
+              <Profiles />
             </Route>
           </Router>
         </div>

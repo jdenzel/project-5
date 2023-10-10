@@ -10,50 +10,13 @@ from flask_restful import Resource
 from config import app, db, api
 # Add your model imports
 
-from models import Profile, User, Team
+from models import User, Profile, Team, League
 
 
 # Views go here!
 
 class Signup(Resource):
-    def post(self):
-        json_data = request.get_json()
-        username = json_data['username']
-        password = json_data['password']
-        first_name = json_data['first_name']
-        last_name = json_data['last_name']
-        player_or_staff = json_data['player_or_staff']
-
-        if username and password:
-            new_user = User(
-                username=username,
-            )
-            new_user.password_hash = password
-            
-            if player_or_staff == 'player':
-                player = Player()
-                profile = Profile(first_name = first_name , last_name=last_name, player=player)
-            elif player_or_staff == 'staff':
-                staff = Staff()
-                profile = Profile(first_name = first_name , last_name=last_name, staff=staff)
-
-            session['user_id'] = new_user.id
-
-            new_user.profile = profile
-
-            db.session.add(profile)
-            db.session.add(new_user)
-
-            print(profile.to_dict())
-            
-            db.session.commit()
-
-            return (
-                    new_user.to_dict(), 201,
-                    profile.to_dict(), 201
-            )
-        else:
-            return {'error': 'Unprocessable Entity'}, 400
+    pass
         
 
 class CheckSession(Resource):

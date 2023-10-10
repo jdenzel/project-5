@@ -16,8 +16,24 @@ from models import User, Profile, Team, League
 # Views go here!
 
 class Signup(Resource):
-    pass
-        
+    def post(self):
+        json_data = request.get_json()
+        username = json_data('username')
+        password = json_data('password')
+        role = json_data('role')
+
+        if username and password:
+            new_user = User(
+                username = username,
+                role = role
+            )
+            new_user.password_hash = password
+            db.session.add(new_user)
+            db.session.commit()
+            session['user_id'] = new_user.id
+            return new_user.to_dict(), 201
+        else:
+            return {'error': 'Unprocessable entity'}, 422
 
 class CheckSession(Resource):
     def get(self):

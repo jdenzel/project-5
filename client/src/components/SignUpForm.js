@@ -6,7 +6,7 @@ function SignUpForm({ onLogin }) {
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
-    const [player_or_staff, setPlayer_or_staff] = useState("");
+    const [role, setRole] = useState("");
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -26,7 +26,7 @@ function SignUpForm({ onLogin }) {
                 password_confirmation: passwordConfirmation,
                 first_name: firstname,
                 last_name: lastname,
-                player_or_staff,
+                role,
                 }),
             }).then((r) => {
                 setLoading(false);
@@ -91,14 +91,14 @@ function SignUpForm({ onLogin }) {
                 />
             </div>
             <div>
-                <label>Player or Staff</label>
+                <label>Player or Admin</label>
                 <div>
                     <label>
                         <input
                             type="radio"
                             value="player"
-                            checked={player_or_staff === "player"}
-                            onChange={(e) => setPlayer_or_staff(e.target.value)}
+                            checked={role === "player"}
+                            onChange={(e) => setRole(e.target.value)}
                         />
                         Player
                     </label>
@@ -108,10 +108,10 @@ function SignUpForm({ onLogin }) {
                         <input
                             type="radio"
                             value="staff"
-                            checked={player_or_staff === "staff"}
-                            onChange={(e) => setPlayer_or_staff(e.target.value)}
+                            checked={role === "admin"}
+                            onChange={(e) => setRole(e.target.value)}
                         />
-                        Staff
+                        Admin
                     </label>
                 </div>
             </div>

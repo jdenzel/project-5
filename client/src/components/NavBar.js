@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+// import { Link } from "react-router-dom"
 
 function NavBar({ user, setUser }) {
   function handleLogoutClick() {
@@ -14,9 +14,9 @@ function NavBar({ user, setUser }) {
 
     return (
         <div>
-            <p>
+            {/* <p>
                 <Link to="/">Home</Link>
-            </p>
+            </p> */}
             <nav>
             <span>{user.username}</span>
             <button onClick={handleLogoutClick}>Logout</button>

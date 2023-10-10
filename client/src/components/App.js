@@ -3,6 +3,7 @@ import { Switch, Route, Routes, BrowserRouter as Router } from "react-router-dom
 import SignUpForm from "./SignUpForm";
 import Login from "./Login";
 import NavBar from "./NavBar";
+import Teams from "./Teams";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -28,6 +29,9 @@ function App() {
           <Router>
             <Route path="/signup">
               <SignUpForm />
+            </Route>
+            <Route path="/teams">
+              <Teams />
             </Route>
           </Router>
         </div>

@@ -18,9 +18,9 @@ from models import User, Profile, Team, League
 class Signup(Resource):
     def post(self):
         json_data = request.get_json()
-        username = json_data('username')
-        password = json_data('password')
-        role = json_data('role')
+        username = json_data['username']
+        password = json_data['password']
+        role = json_data['role']
 
         if username and password:
             new_user = User(
@@ -65,10 +65,24 @@ class Logout(Resource):
         else:
             return {'error': 'Unauthorized'}, 401
         
+class TeamList(Resource):
+    def get(self):
+        teams = Team.query.all()
+        return [team.to_dict() for team in teams], 200
+    
+class ProfileList(Resource):
+    def get(self):
+        profiles = Profile.query.all()
+        return [profile.to_dict() for profile in profiles], 200
+    
+
+
+        
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
+api.add_resource(TeamList, '/teams', endpoint='teams')
 
 
 if __name__ == '__main__':

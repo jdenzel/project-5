@@ -5,6 +5,7 @@ import Login from "./Login";
 import NavBar from "./NavBar";
 import Teams from "./Teams";
 import Profiles from "./Profiles";
+import League from "./League";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -36,6 +37,9 @@ function App() {
             </Route>
             <Route path="/profiles">
               <Profiles />
+            </Route>
+            <Route path="/leagues">
+              <League />
             </Route>
           </Router>
         </div>

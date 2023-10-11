@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ProfileCard from "./ProfileCard";
+import LeagueCard from "./LeagueCard";
 
 function League() {
     const [leagues, setLeagues] = useState([]);
@@ -7,17 +8,17 @@ function League() {
     useEffect(() => {
         fetch("/leagues")
           .then((r) => r.json())
-          .then(setProfiles);
+          .then(setLeagues);
       }, []);
 
     return (
         <div>
             <h2>Leagues</h2>
             <div>
-                <ProfileCard profiles={profiles} />
+                <LeagueCard leagues={leagues} />
             </div>
         </div>
     );
 }
 
-export default Profiles;
+export default League;

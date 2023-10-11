@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ProfileCard from "./ProfileCard";
 
 function Profiles() {
     const [profiles, setProfiles] = useState([]);
@@ -12,15 +13,9 @@ function Profiles() {
     return (
         <div>
             <h2>Profiles</h2>
-            <ul>
-                {profiles.map((profile) => (
-                    <li key={profile.id}>{profile.first_name}
-                    {profile.last_name}
-                    {profile.bio}
-                    <img src={profile.image_url} alt={profile.first_name} />
-                    </li>
-                ))}
-            </ul>
+            <div>
+                <ProfileCard profiles={profiles} />
+            </div>
         </div>
     );
 }

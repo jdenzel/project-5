@@ -32,7 +32,6 @@ if __name__ == '__main__':
         usernames = []
         profiles = []
         players = []
-        male_name = fake.first_name_male()
 
         for i in range(300):
 
@@ -49,7 +48,7 @@ if __name__ == '__main__':
             user.password_hash = user.username + 'password'
 
             profile = Profile(
-                first_name = male_name,
+                first_name = fake.first_name_male(),
                 last_name = fake.last_name(),
                 image_url = fake.image_url(),
                 bio = fake.paragraph(),

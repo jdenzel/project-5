@@ -74,6 +74,11 @@ class ProfileList(Resource):
     def get(self):
         profiles = Profile.query.all()
         return [profile.to_dict() for profile in profiles], 200
+
+class LeagueList(Resource):
+    def get(self):
+        leagues = League.query.all()
+        return [league.to_dict() for league in leagues], 200
     
 
 
@@ -84,6 +89,7 @@ api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(TeamList, '/teams', endpoint='teams')
 api.add_resource(ProfileList, '/profiles', endpoint='profiles')
+api.add_resource(LeagueList, '/leagues', endpoint='leagues')
 
 
 if __name__ == '__main__':

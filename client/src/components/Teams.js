@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import TeamCard from "./TeamCard";
 
 function Teams() {
     const [teams, setTeam] = useState([]);
@@ -12,11 +13,9 @@ function Teams() {
     return (
         <div>
             <h2>Teams</h2>
-            <ul>
-                {teams.map((team) => (
-                    <li key={team.id}>{team.name}</li>
-                ))}
-            </ul>
+            <div>
+                <TeamCard teams={teams} />
+            </div>
         </div>
     );
 }

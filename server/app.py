@@ -62,8 +62,8 @@ class CheckSession(Resource):
     def get(self):
         if session.get('user_id'):
             user = User.query.filter(User.id == session['user_id']).first()
-            player = Player.query.filter(Player.user_id == session['user_id']).first()
-            return user.to_dict(), player.to_dict(), 200
+            # player = Player.query.filter(Player.user_id == session['user_id']).first()
+            return user.to_dict(), 200
         else:
             return {'error': 'Unauthorized'}, 401
         
@@ -94,39 +94,44 @@ class UserProfile(Resource):
     def get(self):
         if session.get('user_id'):
             profile = Profile.query.filter(Profile.user_id == session['user_id']).first()
-            player = Player.query.filter(Player.user_id == session['user_id']).first()
-            return profile.to_dict(), player.to_dict(), 200
+            # player = Player.query.filter(Player.user_id == session['user_id']).first()
+            # return profile.to_dict(), player.to_dict(), 200
+            return profile.to_dict(), 200
         else:
             return {'error': 'Unauthorized'}, 401
         
-    def patch(self):
-        profile = Profile.query.filter(Profile.user_id == session['user_id']).first()
-        player = Player.query.filter(Player.user_id == session['user_id']).first()
+    # def patch(self):
+    #     profile = Profile.query.filter(Profile.user_id == session['user_id']).first()
+    #     player = Player.query.filter(Player.user_id == session['user_id']).first()
 
-        json_data = request.get_json()
-        first_name = json_data['first_name']
-        last_name = json_data['last_name']
-        image_url = json_data['image_url']
-        bio = json_data['bio']
-        jersey_number = json_data['jersey_number']
+    #     json_data = request.get_json()
+    #     first_name = json_data['first_name']
+    #     last_name = json_data['last_name']
+    #     image_url = json_data['image_url']
+    #     bio = json_data['bio']
+    #     jersey_number = json_data['jersey_number']
 
-        if session.get('user_id'):
-            if first_name in first_name:
-                profile.first_name = first_name
-            if last_name in last_name:
-                profile.last_name = last_name
-            if image_url in image_url:
-                profile.image_url = image_url
-            if bio in bio:
-                profile.bio = bio
-            if jersey_number in jersey_number:
-                player.jersey_number = jersey_number
+    #     if session.get('user_id'):
+    #         if first_name in first_name:
+    #             profile.first_name = first_name
+    #         if last_name in last_name:
+    #             profile.last_name = last_name
+    #         if image_url in image_url:
+    #             profile.image_url = image_url
+    #         if bio in bio:
+    #             profile.bio = bio
+    #         if jersey_number in jersey_number:
+    #             player.jersey_number = jersey_number
             
-            db.session.commit()
+    #         db.session.commit()
+
+    #         # updated_profile = Profile.query.filter(Profile.user_id == session['user_id']).first()
+    #         # updated_player = Player.query.filter(Player.user_id == session['user_id']).first()
         
-            return {'message': 'Profile updated'}, 200
-        else:
-            return {'error': 'Unauthorized'}, 401
+    #         # return updated_profile.to_dict(), updated_player.to_dict(), 200
+    #         return {'message': 'Updated User'}, 200
+    #     else:
+    #         return {'error': 'Unauthorized'}, 401
     
         
 # JoinTeam 

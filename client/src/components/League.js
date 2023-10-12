@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import ProfileCard from "./ProfileCard";
 import LeagueCard from "./LeagueCard";
 
 function League() {

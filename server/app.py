@@ -94,37 +94,40 @@ class UserProfile(Resource):
     def get(self):
         if session.get('user_id'):
             profile = Profile.query.filter(Profile.user_id == session['user_id']).first()
-            return profile.to_dict(), 200
+            player = Player.query.filter(Player.user_id == session['user_id']).first()
+            return profile.to_dict(), player.to_dict(), 200
         else:
             return {'error': 'Unauthorized'}, 401
         
-    def post(self):
+    def patch(self):
+        profile = Profile.query.filter(Profile.user_id == session['user_id']).first()
+        player = Player.query.filter(Player.user_id == session['user_id']).first()
+
         json_data = request.get_json()
         first_name = json_data['first_name']
         last_name = json_data['last_name']
         image_url = json_data['image_url']
         bio = json_data['bio']
-        # jersey_number = json_data['jersey_number']
+        jersey_number = json_data['jersey_number']
 
         if session.get('user_id'):
-            new_profile = Profile(
-                first_name = first_name,
-                last_name = last_name,
-                image_url = image_url,
-                bio = bio,
-                user_id = session['user_id']
-            )
-            # player = Player.query.filter(Player.user_id == session['user_id']).first()
+            if first_name in first_name:
+                profile.first_name = first_name
+            if last_name in last_name:
+                profile.last_name = last_name
+            if image_url in image_url:
+                profile.image_url = image_url
+            if bio in bio:
+                profile.bio = bio
+            if jersey_number in jersey_number:
+                player.jersey_number = jersey_number
             
-
-            db.session.add(new_profile)
-            try:
-                db.session.commit()
-            except Exception:
-                return {'error': 'Unprocessable entity'}, 422
-            return new_profile.to_dict(), 201
+            db.session.commit()
+        
+            return {'message': 'Profile updated'}, 200
         else:
             return {'error': 'Unauthorized'}, 401
+    
         
 # JoinTeam 
 

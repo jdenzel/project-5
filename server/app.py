@@ -129,7 +129,19 @@ class UserProfile(Resource):
         else:
             return {'error': 'Unauthorized'}, 401
         
-    
+    def delete(self):
+        if session.get('user_id'):
+            profile = Profile.query.filter(Profile.user_id == session['user_id']).first()
+            player = Player.query.filter(Player.user_id == session['user_id']).first()
+            user = User.query.filter(User.id == session['user_id']).first()
+            db.session.delete(profile)
+            db.session.delete(player)
+            db.session.delete(user)
+            db.session.commit()
+            session.clear()
+            return {'nessage': 'Account has been deleted'}, 200
+        else:
+            return {'error': 'Unauthorized'}, 401
     
         
 # JoinTeam 

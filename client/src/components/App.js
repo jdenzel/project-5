@@ -6,6 +6,7 @@ import NavBar from "./NavBar";
 import Teams from "./Teams";
 import Profiles from "./Profiles";
 import League from "./League";
+import UserProfile from "./UserProfile";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -40,6 +41,9 @@ function App() {
             </Route>
             <Route path="/leagues">
               <League />
+            </Route>
+            <Route path="/user_profile">
+              <UserProfile />
             </Route>
           </Router>
         </div>

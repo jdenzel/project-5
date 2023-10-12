@@ -14,16 +14,16 @@ function UserProfile() {
             <h2>Profiles</h2>
             <button>Edit</button>
             <div>
-                {user_profile.map((user_profile) => (
+                {/* {user_profile.map((user_profile) => ( */}
                     <div key={user_profile.id}>
-                        <img srx={user_profile.image_url}/>
-                        <p>{user_profile.first_name} {user_profile.last_name}</p>
-                        <p>{user_profile.bio}</p>
+                        <img src={user_profile.image_url}/>
+                        <p>Name: {user_profile.first_name} {user_profile.last_name}</p>
+                        <p>Bio: {user_profile.bio}</p>
                     </div>
-                ))}
+                {/* ))} */}
             </div>
         </div>
     );
 }
 
-export default Profiles;
+export default UserProfile;

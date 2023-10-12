@@ -21,6 +21,11 @@ class Signup(Resource):
         username = json_data['username']
         password = json_data['password']
         role = json_data['role']
+        first_name = json_data['first_name']
+        last_name = json_data['last_name']
+        image_url = json_data['image_url']
+        bio = json_data['bio']
+        jersey_number = json_data['jersey_number']
 
         if username and password:
             new_user = User(
@@ -29,9 +34,27 @@ class Signup(Resource):
             )
             new_user.password_hash = password
             db.session.add(new_user)
+
+            new_user_profile = Profile(
+                first_name = first_name,
+                last_name = last_name,
+                image_url = image_url,
+                bio = bio,
+                user = new_user
+            )
+            db.session.add(new_user_profile)
+
+            if new_user.role == 'player':
+                new_user_player = Player(
+                    jersey_number = json_data['jersey_number'],
+                    user = new_user
+                )
+                db.session.add(new_user_player)
+
             db.session.commit()
             session['user_id'] = new_user.id
             return new_user.to_dict(), 201
+                
         else:
             return {'error': 'Unprocessable entity'}, 422
 
@@ -39,7 +62,8 @@ class CheckSession(Resource):
     def get(self):
         if session.get('user_id'):
             user = User.query.filter(User.id == session['user_id']).first()
-            return user.to_dict()
+            player = Player.query.filter(Player.user_id == session['user_id']).first()
+            return user.to_dict(), player.to_dict(), 200
         else:
             return {'error': 'Unauthorized'}, 401
         
@@ -69,8 +93,8 @@ class Logout(Resource):
 class UserProfile(Resource):
     def get(self):
         if session.get('user_id'):
-            player = Profile.query.filter(Profile.user_id == session['user_id']).first()
-            return player.to_dict(), 200
+            profile = Profile.query.filter(Profile.user_id == session['user_id']).first()
+            return profile.to_dict(), 200
         else:
             return {'error': 'Unauthorized'}, 401
         
@@ -80,6 +104,7 @@ class UserProfile(Resource):
         last_name = json_data['last_name']
         image_url = json_data['image_url']
         bio = json_data['bio']
+        # jersey_number = json_data['jersey_number']
 
         if session.get('user_id'):
             new_profile = Profile(
@@ -89,6 +114,9 @@ class UserProfile(Resource):
                 bio = bio,
                 user_id = session['user_id']
             )
+            # player = Player.query.filter(Player.user_id == session['user_id']).first()
+            
+
             db.session.add(new_profile)
             try:
                 db.session.commit()
@@ -97,6 +125,8 @@ class UserProfile(Resource):
             return new_profile.to_dict(), 201
         else:
             return {'error': 'Unauthorized'}, 401
+        
+# JoinTeam 
 
 # List of teams
 class TeamList(Resource):

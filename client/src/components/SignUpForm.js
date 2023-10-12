@@ -7,6 +7,9 @@ function SignUpForm({ onLogin }) {
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [role, setRole] = useState("");
+    const [image_url, setImage_url] = useState("");
+    const [bio, setBio] = useState("");
+    const [jersey_number, setJersey_number] = useState("");
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -24,9 +27,12 @@ function SignUpForm({ onLogin }) {
                 username,
                 password,
                 password_confirmation: passwordConfirmation,
+                role,
                 first_name: firstname,
                 last_name: lastname,
-                role,
+                image_url: image_url,
+                bio,
+                jersey_number,
                 }),
             }).then((r) => {
                 setLoading(false);
@@ -91,6 +97,26 @@ function SignUpForm({ onLogin }) {
                 />
             </div>
             <div>
+                <label htmlFor="bio">Biography</label>
+                <input
+                    type="text"
+                    id="bio"
+                    autoComplete="off"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                />
+            </div>
+            <div>
+                <label htmlFor="image_url">Image</label>
+                <input
+                    type="text"
+                    id="image_url"
+                    autoComplete="off"
+                    value={image_url}
+                    onChange={(e) => setImage_url(e.target.value)}
+                />
+            </div>
+            <div>
                 <label>Player or Admin</label>
                 <div>
                     <label>
@@ -115,6 +141,18 @@ function SignUpForm({ onLogin }) {
                     </label>
                 </div>
             </div>
+            {role === "player" && (
+                <div>
+                    <label htmlFor="jersey_number">Jersey Number</label>
+                    <input
+                        type="text"
+                        id="jersey_number"
+                        autoComplete="off"
+                        value={jersey_number}
+                        onChange={(e) => setJersey_number(e.target.value)}
+                    />
+                </div>    
+            )}
             <div>
                 <button type="submit">{loading ? "Loading..." : "Sign Up"}</button>
             </div>

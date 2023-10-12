@@ -24,6 +24,7 @@ if __name__ == '__main__':
         League.query.delete()
         players_teams_table = text('DELETE FROM players_teams')
         db.session.execute(players_teams_table)
+        db.session.commit()
 
 
         # Create Fake users
@@ -42,7 +43,7 @@ if __name__ == '__main__':
 
             user = User(
                 username = username,
-                role = rc(['admin', 'user']),
+                role = 'player',
             )
 
             user.password_hash = user.username + 'password'
@@ -99,10 +100,10 @@ if __name__ == '__main__':
         players_teams_table = []
 
         for player in players:
-            for team in teams:
-                players_teams_table.append({
-            'player_id': player.id,
-            'team_id': team.id
+            team = rc(teams)
+            players_teams_table.append({
+                'player_id': player.id,
+                'team_id': team.id
         })
 
         db.session.execute(players_teams.insert(), players_teams_table)

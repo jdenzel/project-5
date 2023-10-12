@@ -48,7 +48,10 @@ function UserProfile() {
         })
         .then((r) => r.json())
         .then((updatedUser) => {
+            console.log(updatedUser)
+            console.log(updatedUser.first_name)
             setUser_profile(updatedUser);
+            setIsEditing(false);
         })
         .catch((error) => {
             console.error(error);
@@ -59,16 +62,59 @@ function UserProfile() {
     return (
         <div>
             <h2>Profiles</h2>
-            <button>Edit</button>
-            <div>
-                {/* {user_profile.map((user_profile) => ( */}
-                    <div key={user_profile.id}>
-                        <img src={user_profile.image_url}/>
-                        <p>Name: {user_profile.first_name} {user_profile.last_name}</p>
-                        <p>Bio: {user_profile.bio}</p>
-                    </div>
-                {/* ))} */}
-            </div>
+            {!isEditing ?(
+                <div>
+                    <img src={user_profile.image_url} alt={user_profile.first_name} />
+                    <h2>Name: {user_profile.first_name} {user_profile.last_name}</h2>
+                    <p>Bio: {user_profile.bio}</p>
+                    <p>Jersey Number: {user_profile.jersey_number}</p>
+                    <button onClick={handleEdit}>Edit</button>
+                </div>
+            ) : (
+                <form onSubmit={handleSubmit}>
+                    <label>First Name: 
+                        <input 
+                            type="text"
+                            name="first_name"
+                            value={form.first_name}
+                            onChange={handleInput}
+                        />
+                    </label>
+                    <label>Last Name: 
+                        <input 
+                            type="text"
+                            name="last_name"
+                            value={form.last_name}
+                            onChange={handleInput}
+                        />
+                    </label>
+                    <label>Bio: 
+                        <input 
+                            type="text"
+                            name="bio"
+                            value={form.bio}
+                            onChange={handleInput}
+                        />
+                    </label>
+                    <label>Image URL: 
+                        <input 
+                            type="text"
+                            name="image_url"
+                            value={form.image_url}
+                            onChange={handleInput}
+                        />
+                    </label>
+                    <label>Jersey Number: 
+                        <input 
+                            type="text"
+                            name="jersey_number"
+                            value={form.jersey_number}
+                            onChange={handleInput}
+                        />
+                    </label>
+                    <button type="submit">Save</button>
+                </form>
+            )}
         </div>
     );
 }

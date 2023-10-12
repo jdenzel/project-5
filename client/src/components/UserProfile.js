@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 function UserProfile() {
     const [user_profile, setUser_profile] = useState([]);
@@ -58,6 +59,26 @@ function UserProfile() {
             console.error(error);
         });
     };
+
+    const handleDelete = () => {
+        fetch("/user_profile", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        .then((r) => {
+            if (r.status === 200) {
+                history.push("/");
+            }
+            else {
+                console.log("Failed to delete Account")
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
     
 
     return (

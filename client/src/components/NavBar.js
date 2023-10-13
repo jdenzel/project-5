@@ -1,5 +1,5 @@
 import React from "react";
-// import { Link } from "react-router-dom"
+import {  Link } from "react-router-dom";
 
 function NavBar({ user, setUser }) {
   function handleLogoutClick() {
@@ -14,11 +14,13 @@ function NavBar({ user, setUser }) {
 
     return (
         <div>
-            {/* <p>
-                <Link to="/">Home</Link>
-            </p> */}
             <nav>
             <span>{user.username}</span>
+              <Link to="/">Home</Link>
+              <Link to="/players">Players</Link>
+              <Link to="/teams">Teams</Link>
+              <Link to="/leagues">Leagues</Link>
+              <Link to="/user_profile">Profile</Link>
             <button onClick={handleLogoutClick}>Logout</button>
             </nav>
         </div>

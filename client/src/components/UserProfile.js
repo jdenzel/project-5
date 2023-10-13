@@ -11,6 +11,7 @@ function UserProfile() {
         image_url: "",
         // jersey_number: "",
     });
+    const history = useHistory();
 
     useEffect(() => {
         fetch("/user_profile")
@@ -101,6 +102,7 @@ function UserProfile() {
                     <p>Bio: {user_profile.bio}</p>
                     {/* <p>Jersey Number: {user_profile.jersey_number}</p> */}
                     <button onClick={handleEdit}>Edit</button>
+                    <button onClick={handleDelete}>Delete</button>
                 </div>
             ) : (
                 <form onSubmit={handleSubmit}>

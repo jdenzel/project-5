@@ -6,7 +6,7 @@ function TeamCard({ teams }) {
             {teams.map((team, index) => (
                 <div key={index} >
                     <h2>{team.name}</h2>
-                    <img src={team.image_url} alt={team.name} />
+                    <img src={team.logo} alt={team.name} />
                 </div>
             ))}
 

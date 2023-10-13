@@ -5,14 +5,14 @@ function Profiles() {
     const [profiles, setProfiles] = useState([]);
 
     useEffect(() => {
-        fetch("/profiles")
+        fetch("/players")
           .then((r) => r.json())
           .then(setProfiles);
       }, []);
 
     return (
         <div>
-            <h2>Profiles</h2>
+            <h2>Players</h2>
             <div>
                 <ProfileCard profiles={profiles} />
             </div>

@@ -186,7 +186,7 @@ api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(UserProfile, '/user_profile', endpoint='user_profile')
 api.add_resource(TeamList, '/teams', endpoint='teams')
-api.add_resource(ProfileList, '/profiles', endpoint='profiles')
+api.add_resource(ProfileList, '/players', endpoint='players')
 api.add_resource(LeagueList, '/leagues', endpoint='leagues')
 
 

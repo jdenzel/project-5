@@ -20,7 +20,8 @@ function LoginForm({ onLogin }) {
             setLoading(false);
             if (r.ok) {
                 r.json().then((user) => onLogin(user));
-            } else {
+            } 
+            else {
                 r.json().then((err) => setErrors(err.errors));
             }
         });
@@ -28,6 +29,7 @@ function LoginForm({ onLogin }) {
 
     return (
         <form onSubmit={handleSubmit}>
+            <h1>Login</h1>
             <div>
                 <label htmlFor="username">Username</label>
                 <input
@@ -53,12 +55,20 @@ function LoginForm({ onLogin }) {
                 {loading ? <p>Loading...</p> : null}
             </div>
             <div>
-                {errors.map((err) => (
-                    <div key={err}>{err}</div>
-                ))}
+                {errors && errors.length > 0 && (
+                    <div>
+                        {errors.map((err, index) => (
+                            <div key={index}>
+                                {err}
+                                
+                            </div>
+                            
+                        ))}
+                    </div>
+                )}
             </div>
         </form>
-    )
+    );
 }
 
 export default LoginForm

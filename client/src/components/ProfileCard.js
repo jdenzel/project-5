@@ -2,7 +2,7 @@ import React from "react";
 
 function ProfileCard({ profiles }) {
     return (
-        <div>
+        <div class="player-card">
             {profiles.map((profile, index) => (
                 <div key={index} >
                     <img src={profile.image_url} alt={profile.first_name} />

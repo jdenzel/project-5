@@ -23,20 +23,22 @@ function App() {
 
   return (
     <>
-    <NavBar  user={user} setUser={setUser} />
+    
     <main>
-        <div>
-          <h1>Project</h1>
-        </div>
+        
         <div>
           <Router>
+            <NavBar  user={user} setUser={setUser} />
+            <div>
+              <h1>Project</h1>
+            </div>
             <Route path="/signup">
               <SignUpForm />
             </Route>
             <Route path="/teams">
               <Teams />
             </Route>
-            <Route path="/profiles">
+            <Route path="/players">
               <Profiles />
             </Route>
             <Route path="/leagues">

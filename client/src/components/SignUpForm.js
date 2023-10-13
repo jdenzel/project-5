@@ -1,19 +1,22 @@
-import React, { useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 
-function SignUpForm({ onLogin }) {
-    const signUpValues = {
-        username: "",
-        password: "",
-        passwordConfirmation: "",
-        role: "",
-        firstname: "",
-        lastname: "",
-        image_url: "",
-        bio: "",
-        jersey_number: "",
-    };
+const SignUpForm = ({ onLogin }) => {
+    const [user, setUser] = useState(null);
+    const [refreshPage, setRefreshPage] = useState(false);
+
+    // useEffect(() => {
+    //     fetch("/signup")
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             setUser(data);
+    //             console.log(data);
+    //             if (data.ok) {
+    //                 onLogin(data);
+    //             }
+    //         });
+    //     }, [refreshPage]);
 
     const signUpSchema = Yup.object().shape({
         username: Yup.string().required("Username is required"),
@@ -21,174 +24,185 @@ function SignUpForm({ onLogin }) {
         passwordConfirmation: Yup.string()
             .oneOf([Yup.ref("password"), null], "Passwords must match")
             .required("Password confirmation is required"),
-        firstname: Yup.string().required("First name is required"),
-        lastname: Yup.string().required("Last name is required"),
+        first_name: Yup.string().required("First name is required"),
+        last_name: Yup.string().required("Last name is required"),
         role: Yup.string().required("Role is required"),
         image_url: Yup.string().required("Image is required"),
         bio: Yup.string().required("Bio is required"),
-        jersey_number: Yup.string().required("Jersey number is required"),
-    });
-    // const [username, setUsername] = useState("");
-    // const [password, setPassword] = useState("");
-    // const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    // const [firstname, setFirstname] = useState("");
-    // const [lastname, setLastname] = useState("");
-    // const [role, setRole] = useState("");
-    // const [image_url, setImage_url] = useState("");
-    // const [bio, setBio] = useState("");
-    // const [jersey_number, setJersey_number] = useState("");
-    // const [errors, setErrors] = useState([]);
-    // const [loading, setLoading] = useState(false);
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        setErrors([]);
-        setLoading(true);
-        fetch("/signup", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
+        jersey_number: Yup.string().test({
+            test: function(value) {
+                // Check if the role is "player" and jersey_number is provided
+                if (this.parent.role === "player" && !value) {
+                    return this.createError({
+                        path: 'jersey_number',
+                        message: 'Jersey number is required',
+                    });
+                }
+                return true;
             },
-            body: JSON.stringify({
-                
-                username,
-                password,
-                password_confirmation: passwordConfirmation,
-                role,
-                first_name: firstname,
-                last_name: lastname,
-                image_url: image_url,
-                bio,
-                jersey_number,
-                }),
-            }).then((r) => {
-                setLoading(false);
-                if (r.ok) {
-                    r.json().then((user) => onLogin(user));
-                } else {
-                    r.json().then((err) => setErrors(err.errors));
+        }),
+    });
+
+    const formik = useFormik({
+         initialValues:  {
+            username: "",
+            password: "",
+            passwordConfirmation: "",
+            role: "",
+            first_name: "",
+            last_name: "",
+            image_url: "",
+            bio: "",
+            jersey_number: "",
+        },
+        validationSchema: signUpSchema,
+        onSubmit: (values) => {
+            fetch("/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values, null, 2),
+            }).then((response) => {
+                if (response.ok) {
+                    response.json().then((user) => {
+                        onLogin(user);
+                    });
+                    setRefreshPage(!refreshPage);
                 }
             });
-    }
+        },
+    });
+
+    // const handleSubmit = (values, { setSubmitting, setErrors }) => {
+    //     setSubmitting(true);
+    //     try {
+    //         const r = fetch("/signup", {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify(values),
+    //             });
+    //             if (r.ok) {
+    //                 r.json().then((user) => onLogin(user));
+    //             }
+    //             else {
+    //                 r.json().then((err) => setErrors(err.errors));
+    //             }
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //         finally {
+    //             setSubmitting(false);
+    //     }
+    // }
+
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="username">Username</label>
-                <input
-                    type="text"
-                    id="username"
-                    autoComplete="off"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-            </div>
-            <div>
-                <label htmlFor="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </div>
-            <div>
-                <label htmlFor="passwordConfirmation">Confirm Password</label>
-                <input
-                    type="password"
-                    id="passwordConfirmation"
-                    autoComplete="current-password"
-                    value={passwordConfirmation}
-                    onChange={(e) => setPasswordConfirmation(e.target.value)}
-                />
-            </div>
-            <div>
-                <label htmlFor="firstname">First Name</label>
-                <input
-                    type="text"
-                    id="firstname"
-                    autoComplete="off"
-                    value={firstname}
-                    onChange={(e) => setFirstname(e.target.value)}
-                />
-            </div>
-            <div>
-                <label htmlFor="lastname">Last Name</label>
-                <input
-                    type="text"
-                    id="lastname"
-                    autoComplete="off"
-                    value={lastname}
-                    onChange={(e) => setLastname(e.target.value)}
-                />
-            </div>
-            <div>
-                <label htmlFor="bio">Biography</label>
-                <input
-                    type="text"
-                    id="bio"
-                    autoComplete="off"
-                    value={bio}
-                    onChange={(e) => setBio(e.target.value)}
-                />
-            </div>
-            <div>
-                <label htmlFor="image_url">Image</label>
-                <input
-                    type="text"
-                    id="image_url"
-                    autoComplete="off"
-                    value={image_url}
-                    onChange={(e) => setImage_url(e.target.value)}
-                />
-            </div>
-            <div>
-                <label>Player or Admin</label>
-                <div>
-                    <label>
-                        <input
-                            type="radio"
-                            value="player"
-                            checked={role === "player"}
-                            onChange={(e) => setRole(e.target.value)}
-                        />
-                        Player
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <input
-                            type="radio"
-                            value="staff"
-                            checked={role === "admin"}
-                            onChange={(e) => setRole(e.target.value)}
-                        />
-                        Admin
-                    </label>
-                </div>
-            </div>
-            {role === "player" && (
-                <div>
-                    <label htmlFor="jersey_number">Jersey Number</label>
+                <form onSubmit={formik.handleSubmit}>
+                    <label htmlFor="username">Username</label>
+                    <br />
                     <input
-                        type="text"
-                        id="jersey_number"
-                        autoComplete="off"
-                        value={jersey_number}
-                        onChange={(e) => setJersey_number(e.target.value)}
-                    />
-                </div>    
-            )}
-            <div>
-                <button type="submit">{loading ? "Loading..." : "Sign Up"}</button>
-            </div>
-            <div>
-                {errors.map((err) => (
-                    <div key={err}>{err}</div>
-                ))}
-            </div>
-        </form>
+                        id = "username"
+                        name = "username"
+                        onChange={formik.handleChange}
+                        value={formik.values.username}
+                        />
+                    <p>{formik.errors.username}</p>
+
+                    <label htmlFor="password">Password</label>
+                    <br />
+                    <input
+                        id = "password"
+                        name = "password"
+                        type = "password"
+                        onChange={formik.handleChange}
+                        value={formik.values.password}
+                        />
+                    <p>{formik.errors.password}</p>
+
+                    <label htmlFor="passwordConfirmation">Confirm Password</label>
+                    <br />
+                    <input
+                        id = "passwordConfirmation"
+                        name = "passwordConfirmation"
+                        type = "password"
+                        onChange={formik.handleChange}
+                        value={formik.values.passwordConfirmation}
+                        />
+                    <p>{formik.errors.passwordConfirmation}</p>
+
+                    <label htmlFor="first_name">First Name</label>
+                    <br />
+                    <input
+                        id = "first_name"
+                        name = "first_name"
+                        onChange={formik.handleChange}
+                        value={formik.values.first_name}
+                        />
+                    <p>{formik.errors.first_name}</p>
+
+                    <label htmlFor="last_name">Last Name</label>
+                    <br />
+                    <input
+                        id = "last_name"
+                        name = "last_name"
+                        onChange={formik.handleChange}
+                        value={formik.values.last_name}
+                        />
+                    <p>{formik.errors.last_name}</p>
+
+                    <label htmlFor="bio">Biography</label>
+                    <br />
+                    <input
+                        id = "bio"
+                        name = "bio"
+                        onChange={formik.handleChange}
+                        value={formik.values.bio}
+                        />
+                    <p>{formik.errors.bio}</p>
+
+                    <label htmlFor="image_url">Image</label>
+                    <br />
+                    <input
+                        id = "image_url"
+                        name = "image_url"
+                        onChange={formik.handleChange}
+                        value={formik.values.image_url}
+                        />
+                    <p>{formik.errors.image_url}</p>
+
+                    <label htmlFor="role">Player or Admin</label>
+                    <br />
+                    <select
+                        id = "role"
+                        name = "role"
+                        onChange={formik.handleChange}
+                        value={formik.values.role}
+                        >
+                        <option value="">Select a role</option>
+                        <option value="player">Player</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <p>{formik.errors.role}</p>
+
+                    {formik.values.role === "player" ? (
+                        <>
+                            <label htmlFor="jersey_number">Jersey Number</label>
+                            <br />
+                            <input
+                            id = "jersey_number"
+                            name = "jersey_number"
+                            onChange={formik.handleChange}
+                            value={formik.values.jersey_number}
+                            />
+                            <p>{formik.errors.jersey_number}</p>
+                        </>
+                    ): null}
+
+                    <button type="submit">Sign up</button>
+                </form>
     )
 }
 

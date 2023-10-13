@@ -1,17 +1,44 @@
 import React, { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 function SignUpForm({ onLogin }) {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    const [firstname, setFirstname] = useState("");
-    const [lastname, setLastname] = useState("");
-    const [role, setRole] = useState("");
-    const [image_url, setImage_url] = useState("");
-    const [bio, setBio] = useState("");
-    const [jersey_number, setJersey_number] = useState("");
-    const [errors, setErrors] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const signUpValues = {
+        username: "",
+        password: "",
+        passwordConfirmation: "",
+        role: "",
+        firstname: "",
+        lastname: "",
+        image_url: "",
+        bio: "",
+        jersey_number: "",
+    };
+
+    const signUpSchema = Yup.object().shape({
+        username: Yup.string().required("Username is required"),
+        password: Yup.string().required("Password is required"),
+        passwordConfirmation: Yup.string()
+            .oneOf([Yup.ref("password"), null], "Passwords must match")
+            .required("Password confirmation is required"),
+        firstname: Yup.string().required("First name is required"),
+        lastname: Yup.string().required("Last name is required"),
+        role: Yup.string().required("Role is required"),
+        image_url: Yup.string().required("Image is required"),
+        bio: Yup.string().required("Bio is required"),
+        jersey_number: Yup.string().required("Jersey number is required"),
+    });
+    // const [username, setUsername] = useState("");
+    // const [password, setPassword] = useState("");
+    // const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    // const [firstname, setFirstname] = useState("");
+    // const [lastname, setLastname] = useState("");
+    // const [role, setRole] = useState("");
+    // const [image_url, setImage_url] = useState("");
+    // const [bio, setBio] = useState("");
+    // const [jersey_number, setJersey_number] = useState("");
+    // const [errors, setErrors] = useState([]);
+    // const [loading, setLoading] = useState(false);
 
     function handleSubmit(e) {
         e.preventDefault();

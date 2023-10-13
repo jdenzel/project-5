@@ -1,31 +1,64 @@
 import React, { useState } from "react";
+import { useFormik, userFormik } from "formik"
+import * as Yup from "yup"
 
 function LoginForm({ onLogin }) {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const loginSchema = Yup.object().shape({
+        username: Yup.string().required("Username is required"),
+        password: Yup.string().required("Password is required"),
+    });
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        setErrors([]);
-        setLoading(true);
-        fetch("/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, password }),
-        }).then((r) => {
-            setLoading(false);
-            if (r.ok) {
-                r.json().then((user) => onLogin(user));
-            } 
-            else {
-                r.json().then((err) => setErrors(err.errors));
-            }
-        });
-    }
+    const formik = useFormik({
+        initialValues: {
+            username: "",
+            password: "",
+        },
+        validationSchema: loginSchema,
+        onSubmit: (values) => {
+            fetch("/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+            }).then((r) => {
+                if (r.ok) {
+                    r.json().then((user) => onLogin(user));
+                }
+                else {
+                    r.json().then((err) => setErrors(err.errors));
+                }
+            });
+        }
+    });
+
+    
+
+    // const [username, setUsername] = useState("");
+    // const [password, setPassword] = useState("");
+    // const [errors, setErrors] = useState([]);
+    // const [loading, setLoading] = useState(false);
+
+    // function handleSubmit(e) {
+    //     e.preventDefault();
+    //     setErrors([]);
+    //     setLoading(true);
+    //     fetch("/login", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({ username, password }),
+    //     }).then((r) => {
+    //         setLoading(false);
+    //         if (r.ok) {
+    //             r.json().then((user) => onLogin(user));
+    //         } 
+    //         else {
+    //             r.json().then((err) => setErrors(err.errors));
+    //         }
+    //     });
+    // }
 
     return (
         <form onSubmit={handleSubmit}>

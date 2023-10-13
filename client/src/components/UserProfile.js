@@ -83,16 +83,6 @@ function UserProfile() {
     
 
     return (
-        // <div>
-        //     <h2>Profile</h2>
-        //     <div>   
-        //         <img src={user_profile.image_url} alt={user_profile.first_name} />
-        //         <h2>Name: {user_profile.first_name} {user_profile.last_name}</h2>
-        //         <p>Bio: {user_profile.bio}</p>
-        //         {/* <p>Jersey Number: {user_profile.jersey_number}</p> */}
-        //         </div>
-        // </div>
-
         <div>
             <h2>Profiles</h2>
             {!isEditing ?(

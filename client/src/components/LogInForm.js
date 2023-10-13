@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useFormik, userFormik } from "formik"
+import React from "react";
+import { useFormik } from "formik"
 import * as Yup from "yup"
 
 function LoginForm({ onLogin }) {
@@ -14,7 +14,7 @@ function LoginForm({ onLogin }) {
             password: "",
         },
         validationSchema: loginSchema,
-        onSubmit: (values) => {
+        onSubmit: (values, {setSubmitting, setErrors}) => {
             fetch("/login", {
                 method: "POST",
                 headers: {
@@ -22,17 +22,20 @@ function LoginForm({ onLogin }) {
                 },
                 body: JSON.stringify(values),
             }).then((r) => {
+                setSubmitting(false);
                 if (r.ok) {
                     r.json().then((user) => onLogin(user));
                 }
                 else {
-                    r.json().then((err) => setErrors(err.errors));
+                    r.json().then(() => {
+                        setErrors({'login': 'Invalid username or password'});
+                    });
                 }
             });
         }
     });
 
-    
+
 
     // const [username, setUsername] = useState("");
     // const [password, setPassword] = useState("");
@@ -61,7 +64,7 @@ function LoginForm({ onLogin }) {
     // }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={formik.handleSubmit}>
             <h1>Login</h1>
             <div>
                 <label htmlFor="username">Username</label>
@@ -69,31 +72,35 @@ function LoginForm({ onLogin }) {
                     type="text"
                     id="username"
                     autoComplete="off"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    {...formik.getFieldProps("username")}
                 />
+                {formik.touched.username && formik.errors.username ? (
+                    <div>{formik.errors.username}</div>
+                ) : null}
             </div>
+
             <div>
                 <label htmlFor="password">Password</label>
                 <input
                     type="password"
                     id="password"
                     autoComplete="current-password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...formik.getFieldProps("password")}
                 />
+                {formik.touched.password && formik.errors.password ? (
+                    <div>{formik.errors.password}</div>
+                ) : null}
             </div>
             <div>
                 <button type="submit">Login</button>
-                {loading ? <p>Loading...</p> : null}
+                {formik.isSubmitting ? <p>Loading...</p> : null}
             </div>
             <div>
-                {errors && errors.length > 0 && (
+                {formik.errors && formik.errors.length > 0 && (
                     <div>
-                        {errors.map((err, index) => (
+                        {formik.errors.map((err, index) => (
                             <div key={index}>
                                 {err}
-                                
                             </div>
                             
                         ))}

@@ -1,9 +1,8 @@
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as Yup from "yup";
 
 const SignUpForm = ({ onLogin }) => {
-    const [user, setUser] = useState(null);
     const [refreshPage, setRefreshPage] = useState(false);
 
     // useEffect(() => {
@@ -31,7 +30,6 @@ const SignUpForm = ({ onLogin }) => {
         bio: Yup.string().required("Bio is required"),
         jersey_number: Yup.string().test({
             test: function(value) {
-                // Check if the role is "player" and jersey_number is provided
                 if (this.parent.role === "player" && !value) {
                     return this.createError({
                         path: 'jersey_number',
@@ -56,7 +54,9 @@ const SignUpForm = ({ onLogin }) => {
             jersey_number: "",
         },
         validationSchema: signUpSchema,
-        onSubmit: (values) => {
+        onSubmit: (values, { setSubmitting, setErrors}) => {
+            console.log(values)
+            setSubmitting(true);
             fetch("/signup", {
                 method: "POST",
                 headers: {
@@ -64,39 +64,27 @@ const SignUpForm = ({ onLogin }) => {
                 },
                 body: JSON.stringify(values, null, 2),
             }).then((response) => {
+                setSubmitting(false);
                 if (response.ok) {
                     response.json().then((user) => {
                         onLogin(user);
                     });
                     setRefreshPage(!refreshPage);
                 }
+                else {
+                    response.json().then((err) => {
+                        if(err.username) {
+                            setErrors({ username: err.username} );
+                        } 
+                        else {
+                            setErrors({ password: err.password });
+                        }    
+                    });
+                }
             });
         },
     });
-
-    // const handleSubmit = (values, { setSubmitting, setErrors }) => {
-    //     setSubmitting(true);
-    //     try {
-    //         const r = fetch("/signup", {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify(values),
-    //             });
-    //             if (r.ok) {
-    //                 r.json().then((user) => onLogin(user));
-    //             }
-    //             else {
-    //                 r.json().then((err) => setErrors(err.errors));
-    //             }
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //         finally {
-    //             setSubmitting(false);
-    //     }
-    // }
+    
 
 
     return (

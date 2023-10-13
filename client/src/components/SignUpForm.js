@@ -5,18 +5,6 @@ import * as Yup from "yup";
 const SignUpForm = ({ onLogin }) => {
     const [refreshPage, setRefreshPage] = useState(false);
 
-    // useEffect(() => {
-    //     fetch("/signup")
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             setUser(data);
-    //             console.log(data);
-    //             if (data.ok) {
-    //                 onLogin(data);
-    //             }
-    //         });
-    //     }, [refreshPage]);
-
     const signUpSchema = Yup.object().shape({
         username: Yup.string().required("Username is required"),
         password: Yup.string().required("Password is required"),

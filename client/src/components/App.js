@@ -22,11 +22,7 @@ function App() {
   if (!user) return <Login onLogin={setUser} />;
 
   return (
-    <>
-    
     <main>
-        
-        <div>
           <Router>
             <NavBar  user={user} setUser={setUser} />
             <div>
@@ -48,9 +44,7 @@ function App() {
               <UserProfile />
             </Route>
           </Router>
-        </div>
       </main>
-    </>
   );
 }
 

@@ -36,22 +36,22 @@ function LoginForm({ onLogin }) {
     });
 
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <h1>Login</h1>
-            <div>
+        <form className='form' onSubmit={formik.handleSubmit}>
+            <h1 className='login-title'>Login</h1>
+            <div className="login-inputs">
                 <label htmlFor="username">Username</label>
-                <input
+                <input 
                     type="text"
                     id="username"
                     autoComplete="off"
                     {...formik.getFieldProps("username")}
                 />
                 {formik.touched.username && formik.errors.username ? (
-                    <div>{formik.errors.username}</div>
+                    <div className="login-error">{formik.errors.username}</div>
                 ) : null}
             </div>
 
-            <div>
+            <div className="login-inputs">
                 <label htmlFor="password">Password</label>
                 <input
                     type="password"
@@ -60,11 +60,11 @@ function LoginForm({ onLogin }) {
                     {...formik.getFieldProps("password")}
                 />
                 {formik.touched.password && formik.errors.password ? (
-                    <div>{formik.errors.password}</div>
+                    <div className="login-error">{formik.errors.password}</div>
                 ) : null}
             </div>
             <div>
-                <button type="submit">Login</button>
+                <button className="login-btn" type="submit">Login</button>
                 {formik.isSubmitting ? <p>Loading...</p> : null}
             </div>
             <div>

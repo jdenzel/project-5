@@ -1,12 +1,31 @@
-/* Styling for all pages */
 @import url('https://fonts.googleapis.com/css2?family=Aoboshi+One&family=Outfit:wght@100;300&display=swap');
 
-body{
-    margin: 0;
-    padding: 0;
-    margin-top: 90px;
-    font-family: Aoboshi One, sans-serif;
+/* Styling for Nav */
+.main-title{
+    object-fit: cover;
+    z-index: 2;
+    text-align: center; 
+    padding-top: 200px;
 }
+
+.main-title h2 {
+  color: white;
+  font-family: Aoboshi One, sans-serif;
+  font-size: 150px;
+}
+
+.main-title h1 {
+  color: #28ffb7;
+  font-family: Aoboshi One, sans-serif;
+  font-size: 150px;
+}
+
+bg-video video {
+    height: 100vh;
+    width: 100vw;
+    object-fit: cover;
+}
+
 .nav {
     position: fixed;
     top: 0;
@@ -36,6 +55,322 @@ body{
 .active {
     background-color: #292424;
 }
+
+
+.logout-btn{
+  appearance: none;
+  background-color: #1A1A1A;
+  border: 2px solid #1A1A1A;
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Aoboshi One, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 3px 3px;
+  min-height: 60px;
+  min-width: 0;
+  outline: none;
+  padding: 16px 24px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  touch-action: manipulation;
+  width: auto;
+  will-change: transform;
+}
+
+
+.logout-btn:disabled {
+  pointer-events: none;
+}
+
+.logout-btn:hover {
+  color: #fff;
+  background-color: #1A1A1A;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.logout-btn:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+main {
+  width: 100vw;
+  min-height: 100vh;
+  background-image: url('https://static.vecteezy.com/system/resources/previews/022/337/416/non_2x/basketball-background-illustration-ai-generative-free-photo.jpg'),radial-gradient(#28a3dd, #0d7751);
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply,screen, overlay;
+}
+
+/* Styling for Login Page */
+.forms {
+  height: 100vh;
+  width: 100vw;
+  background-image: url('https://static.vecteezy.com/system/resources/previews/022/337/416/non_2x/basketball-background-illustration-ai-generative-free-photo.jpg'),radial-gradient(#28a3dd, #0d7751);
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply,screen, overlay;
+  display: flex;
+  justify-content: center;
+}
+
+.login-title {
+  font-family: Aoboshi One, sans-serif;
+  font-size: 50px;
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  
+}
+
+.login-form {
+  color: white;
+  width: 40%;
+  height: 700px;
+  margin: 100px;
+
+}
+
+.form {
+  border-style: solid;
+  border-color: #1e1e1e;
+  background-color: #00655449;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.5);
+}
+
+.form label {
+  font-size: 30px;
+  font-family: Aoboshi One, sans-serif;
+  padding-left: 5px;
+  
+}
+
+.login-inputs {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.login-btn {
+  font-family: Aoboshi One, sans-serif;
+  background-color: #0d7751;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.login-error {
+  color: red;
+  font-family: Aoboshi, One, sans-serif;
+  font-size: 20px;
+  margin-top: 5px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.signup-switch{
+  text-align: center;
+  font-family: Aoboshi One, sans-serif;
+  font-size: 20px;
+}
+
+.signup-switch-btn, .login-switch-btn  {
+  margin-left: 10px;
+  background-color: #0d7751;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.signup-form {
+  color: white;
+  width: 80%;
+  height: 700px;
+  margin: 100px;
+  border-style: solid;
+  border-color: #1e1e1e;
+  background-color: #00655449;
+  height: 80%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.5);
+}
+
+.signup-form label {
+  font-size: 30px;
+  font-family: Aoboshi One, sans-serif;
+  padding-left: 5px;
+}
+
+.signup-form p {
+  color: red;
+  font-family: Aoboshi, One, sans-serif;
+  font-size: 20px;
+  margin-top: 5px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.signup-content {
+  width: 90%;
+  height: 100%
+}
+
+.signup-content {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row; 
+  align-items: center;
+  width: 100%;
+  margin: 10px;
+}
+
+.user-password, .user-image-role, .user-first-last{
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  height: 80%;
+  margin: 20px;
+  overflow-wrap: break-word;
+}
+
+.signup-btn {
+  font-family: Aoboshi One, sans-serif;
+  background-color: #0d7751;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.signup-btn-div {
+  display: flex;
+  justify-content: center;
+
+}
+
+
+.form-edit {
+  color: white;
+  width: 80%;
+  height: 700px;
+  margin: 100px;
+  border-style: solid;
+  border-color: #1e1e1e;
+  background-color: #00655449;
+  height: 80%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.5);
+}
+
+
+.form-edit label {
+  font-size: 30px;
+  font-family: Aoboshi One, sans-serif;
+  padding-left: 5px;
+}
+
+.edit-content {
+  width: 100%;
+  height: 700px
+}
+
+.edit-content {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row; 
+  margin: 10px;
+}
+
+.edit-content {
+  font-size: 30px;
+  font-family: Aoboshi One, sans-serif;
+  padding-left: 5px;
+}
+
+.edit-fn, .edit-ln, .edit-bio, .edit-img, .edit-pos {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  flex-direction: column;
+  width: 30%;
+  height: 20%;
+  overflow-wrap: break-word;
+}
+
+.save-btn {
+  font-family: Aoboshi One, sans-serif;
+  background-color: #0d7751;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  height: 50px;
+  margin-top: 45px;
+}
+.delete-btn {
+  font-family: Aoboshi One, sans-serif;
+  background-color: #ab0101;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  height: 50px;
+  margin-top: 45px;
+  margin-left: 55px;
+}
+
+
+/* .signup-btn {
+  font-family: Aoboshi One, sans-serif;
+  background-color: #0d7751;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.signup-btn-div {
+  display: flex;
+  justify-content: center;
+
+} */
+
+/* .user-first-last {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin: 20px;
+} */
+
+
+
+
+
+/* Profile component CSS for players */
 
 .player-container {
   margin: 0px 215px;
@@ -73,9 +408,42 @@ body{
 .player-card img {
     width: 200px;
     height: 200px;
-    /* border-radius: 50%; */
     margin: 5px 5px;
 }
+
+.player-title-separator {
+  font-family: "Share Tech Mono", monospace;
+  color: #006554;
+  font-size: 10vh;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, .45);
+  margin-top: .6em;
+  margin-bottom: 1em;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    height: 0.09em;
+    min-width: 30vw;
+  }
+  
+  &::before {
+    background: linear-gradient(to right, rgba(240,240,240,0), #006554);
+    margin-right: 4vh;
+  }
+  
+  &::after {
+    background: linear-gradient(to left, rgba(240,240,240,0), #006554);
+    margin-left: 4vh;
+  } 
+}
+
+/* Team component CSS */
+
 
 .team-container {
   margin: 0px 215px;
@@ -114,4 +482,243 @@ body{
   font-size: 50px;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
+
+
+.team-title-separator { 
+  font-family: "Share Tech Mono", monospace;
+  color: #006554;
+  font-size: 10vh;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, .45);
+  margin-top: .6em;
+  margin-bottom: 1em;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    height: 0.09em;
+    min-width: 30vw;
+  }
+  
+  &::before {
+    background: linear-gradient(to right, rgba(240,240,240,0), #006554);
+    margin-right: 4vh;
+  }
+  
+  &::after {
+    background: linear-gradient(to left, rgba(240,240,240,0), #006554);
+    margin-left: 4vh;
+  } 
+}
+
+/* League component CSS */
+
+.league-container {
+  margin: 0px 215px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.league-card {
+  width: 400px;
+  height: 550px;
+  background-color: #006554;
+  border-color: #1e1e1e;
+  border-style: solid;
+  border: 5px 5px;
+  border-radius: 2px;
+  display: block;
+  margin: 5px 5px;
+  color: white;
+  text-align: center;
+}
+
+.league-card img {
+  width: 300px;
+  height: 300px;
+  margin: 5px 5px;
+  margin-top: 50px;
+  border-color: #1e1e1e;
+  border-style: solid;
+  border: 5px 5px;
+  border-radius: 2px;
+}
+
+.league-card h2 {
+  font-family: Aoboshi One, sans-serif;
+  font-size: 50px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+
+.league-title-separator { 
+  font-family: "Share Tech Mono", monospace;
+  color: #006554;
+  font-size: 10vh;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, .45);
+  margin-top: .6em;
+  margin-bottom: 1em;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    height: 0.09em;
+    min-width: 30vw;
+  }
+  
+  &::before {
+    background: linear-gradient(to right, rgba(240,240,240,0), #006554);
+    margin-right: 4vh;
+  }
+  
+  &::after {
+    background: linear-gradient(to left, rgba(240,240,240,0), #006554);
+    margin-left: 4vh;
+  } 
+}
+
+/* UserProfile CSS */
+
+.user-profile-container {
+  text-align: center;
+}
+
+.user-profile {
+  height: 900px;
+  margin: 0px 215px;
+  display: block;
+  justify-content: center;
+  background-color: #006554;
+  border-style: solid;
+  border: 5px 5px;
+  border-color: #020202;
+  border-radius: 5px;
+}
+
+.user-profile-card {
+  height: 800px;
+  margin: 50px 50px;
+  display: block;
+  background-color: #000;
+}
+
+.user-profile img {
+  width: 300px;
+  height: 300px;
+  margin: 10px 10px;
+
+}
+
+.user-profile p {
+  font-size: 20px;
+  font-family: Aoboshi One, sans-serif;
+  padding-left: 5px;
+  color: white;
+  height: 150px;
+  overflow-wrap: break-word;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.user-profile h1 {
+  font-family: Aoboshi One, sans-serif;
+  font-size: 60px;
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.user-profile h2 {
+  font-family: Aoboshi One, sans-serif;
+  font-size: 50px;
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.user-title-separator { 
+  font-family: "Share Tech Mono", monospace;
+  color: #006554;
+  font-size: 7vh;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, .45);
+  margin-top: .6em;
+  margin-bottom: 1em;
+  text-align: center;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    height: 0.09em;
+    min-width: 30vw;
+  }
+  
+  &::before {
+    background: linear-gradient(to right, rgba(240,240,240,0), #006554);
+    margin-right: 4vh;
+  }
+  
+  &::after {
+    background: linear-gradient(to left, rgba(240,240,240,0), #006554);
+    margin-left: 4vh;
+  } 
+}
+
+
+.edit-button {
+  appearance: none;
+  background-color: #006554;
+  border: 2px solid white;
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 60px;
+  min-width: 0;
+  outline: none;
+  padding: 16px 24px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 15%;
+  will-change: transform;
+}
+
+.edit-button:disabled {
+  pointer-events: none;
+}
+
+.edit-button:hover {
+  color: #fff;
+  background-color: black;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.edit-button:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
 

@@ -78,7 +78,9 @@ const SignUpForm = ({ onLogin }) => {
 
 
     return (
-                <form onSubmit={formik.handleSubmit}>
+                <form className="signup-content"  onSubmit={formik.handleSubmit}>
+                    <div className='user-password'>
+                    
                     <label htmlFor="username">Username</label>
                     <br />
                     <input
@@ -111,6 +113,10 @@ const SignUpForm = ({ onLogin }) => {
                         />
                     <p>{formik.errors.passwordConfirmation}</p>
 
+                    </div>
+
+                    <div className='user-first-last'>
+
                     <label htmlFor="first_name">First Name</label>
                     <br />
                     <input
@@ -133,13 +139,17 @@ const SignUpForm = ({ onLogin }) => {
 
                     <label htmlFor="bio">Biography</label>
                     <br />
-                    <input
+                    <input className="bio-input"
                         id = "bio"
                         name = "bio"
                         onChange={formik.handleChange}
                         value={formik.values.bio}
                         />
                     <p>{formik.errors.bio}</p>
+
+                    </div>
+
+                    <div className='user-image-role'>
 
                     <label htmlFor="image_url">Image</label>
                     <br />
@@ -150,6 +160,7 @@ const SignUpForm = ({ onLogin }) => {
                         value={formik.values.image_url}
                         />
                     <p>{formik.errors.image_url}</p>
+
 
                     <label htmlFor="role">Player or Admin</label>
                     <br />
@@ -193,10 +204,14 @@ const SignUpForm = ({ onLogin }) => {
                             <option value="Power Forward">Power Forward</option>     
                             </select>
                             <p>{formik.errors.position}</p>
+                            
                         </>
                     ): null}
-
-                    <button type="submit">Sign up</button>
+                    </div>
+                    <div className='signup-btn-div'>
+                    <button className="signup-btn" type="submit">Sign up</button>
+                    </div>
+                    
                 </form>
     )
 }

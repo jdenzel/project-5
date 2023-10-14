@@ -11,13 +11,8 @@ function Profiles() {
       }, []);
 
     return (
-        <div>
-            <div className='player-filter'>
-            <ul>
-                <li></li>
-            </ul>
-            </div>
-            <h2>Players</h2>
+        <div className='players-body'>
+            <div className='player-title-separator'>Players</div>
             <div>
                 <ProfileCard profiles={profiles} />
             </div>

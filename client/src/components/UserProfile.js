@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Login from "./Login";
 
-function UserProfile() {
+function UserProfile( {onLogout }) {
     const [user_profile, setUser_profile] = useState({});
     const [isEditing, setIsEditing] = useState(false);
     const [form, setForm] = useState({
@@ -13,7 +14,7 @@ function UserProfile() {
         // jersey_number: "",
     });
     const history = useHistory();
-    const [isLoggedIn, setIsLoggedIn] = useState(true); 
+    const [isLoggedOut, setIsLoggedOut] = useState(false);
 
     useEffect(() => {
         fetch("/user_profile")
@@ -73,8 +74,9 @@ function UserProfile() {
         })
         .then((r) => {
             if (r.status === 200) {
+                setIsLoggedOut(true);
+                onLogout();
                 history.push("/login");
-                setIsLoggedIn(false);
 
             }
             else {
@@ -85,23 +87,32 @@ function UserProfile() {
             console.error(error);
         });
     }
+    if(isLoggedOut) {
+        return <Login onLogin={onLogout} />
+    }
     
 
     return (
         <div>
             <h2>Profiles</h2>
             {!isEditing ?(
-                <div>
-                    <img src={user_profile.image_url} alt={user_profile.first_name} />
-                    <h2>Name: {user_profile.first_name} {user_profile.last_name}</h2>
-                    <p>Bio: {user_profile.bio}</p>
-                    <p>Position: {user_profile.position}</p>
-                    {/* <p>Jersey Number: {user_profile.jersey_number}</p> */}
-                    <button onClick={handleEdit}>Edit</button>
-                    <button onClick={handleDelete}>Delete</button>
+                <div className="user-profile-container">
+                    <div className='user-title-separator'>Profile</div>
+                        <div className="user-profile">
+                        <div className="user-profile-card">
+                        <img src={user_profile.image_url} alt={user_profile.first_name} />
+                        <h1>Name: {user_profile.first_name} {user_profile.last_name}</h1>
+                        <h2>Position: {user_profile.position}</h2>
+                        <p>{user_profile.bio}</p>
+                        <button className='edit-button' onClick={handleEdit}>Edit</button>
+                        {/* <p>Jersey Number: {user_profile.jersey_number}</p> */}
+                        </div>
+                    </div>
                 </div>
             ) : (
-                <form onSubmit={handleSubmit}>
+                <div className="form-edit">
+                <form className='edit-content' onSubmit={handleSubmit}>
+                    <div className="edit-fn">
                     <label>First Name: 
                         <input 
                             type="text"
@@ -110,6 +121,8 @@ function UserProfile() {
                             onChange={handleInput}
                         />
                     </label>
+                    </div>
+                    <div className="edit-ln">
                     <label>Last Name: 
                         <input 
                             type="text"
@@ -118,6 +131,8 @@ function UserProfile() {
                             onChange={handleInput}
                         />
                     </label>
+                    </div>
+                    <div className="edit-bio">
                     <label>Bio: 
                         <input 
                             type="text"
@@ -126,6 +141,8 @@ function UserProfile() {
                             onChange={handleInput}
                         />
                     </label>
+                    </div>
+                    <div className="edit-img">
                     <label>Image URL: 
                         <input 
                             type="text"
@@ -134,6 +151,8 @@ function UserProfile() {
                             onChange={handleInput}
                         />
                     </label>
+                    </div>
+                    <div className="edit-pos">
                     <label>Position: 
                         <select 
                             type="text"
@@ -149,6 +168,7 @@ function UserProfile() {
                             <option value="Power Forward">Power Forward</option> 
                         </select>
                     </label>
+                    </div>
                     {/* <label>Jersey Number: 
                         <input 
                             type="text"
@@ -157,9 +177,12 @@ function UserProfile() {
                             onChange={handleInput}
                         />
                     </label> */}
-                    <button type="submit">Save</button>
+                    <button className="save-btn" type="submit">Save</button>
+                    <button className="delete-btn" onClick={handleDelete}>Delete</button>
                 </form>
+                </div>
             )}
+            
         </div>
     );
 }

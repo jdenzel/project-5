@@ -11,8 +11,8 @@ function League() {
       }, []);
 
     return (
-        <div>
-            <h2>Leagues</h2>
+        <div className="league-body">
+            <div className='league-title-separator'>Leagues</div>
             <div>
                 <LeagueCard leagues={leagues} />
             </div>

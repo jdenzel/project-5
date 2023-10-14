@@ -23,11 +23,15 @@ function App() {
 
   return (
     <main>
+
           <Router>
-            <NavBar  user={user} setUser={setUser} />
-            <div>
-              <h1>Project</h1>
+            <Route exact path="/">
+            <div className="main-title">
+              <h2>Welcome to</h2>
+              <h1>Team Manager</h1>
             </div>
+            </Route>
+            <NavBar  user={user} setUser={setUser} />
             <Route path="/signup">
               <SignUpForm />
             </Route>

@@ -149,18 +149,6 @@ class UserProfile(Resource):
             return {'error': 'Unauthorized'}, 401
     
         
-# JoinTeam 
-# class JoinTeam(Resource):
-#     def post(self):
-#         player = Player.query.filter(Player.user_id == session['user_id']).first()
-#         team = Team.query.filter(Team.id == request.get_json()['team_id']).first()
-
-#         player.teams.append(team)
-#         db.session.commit()
-
-#         return {'message': 'Joined Team'}, 200
-
-        
 
 # List of teams
 class TeamList(Resource):
@@ -183,8 +171,7 @@ class LeagueList(Resource):
 
     
 
-
-        
+   
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')

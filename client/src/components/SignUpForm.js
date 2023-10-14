@@ -16,6 +16,7 @@ const SignUpForm = ({ onLogin }) => {
         role: Yup.string().required("Role is required"),
         image_url: Yup.string().required("Image is required"),
         bio: Yup.string().required("Bio is required"),
+        position: Yup.string().required("Position is required"),
         jersey_number: Yup.string().test({
             test: function(value) {
                 if (this.parent.role === "player" && !value) {
@@ -39,6 +40,7 @@ const SignUpForm = ({ onLogin }) => {
             last_name: "",
             image_url: "",
             bio: "",
+            position: "",
             jersey_number: "",
         },
         validationSchema: signUpSchema,
@@ -174,6 +176,21 @@ const SignUpForm = ({ onLogin }) => {
                             value={formik.values.jersey_number}
                             />
                             <p>{formik.errors.jersey_number}</p>
+
+                            <label htmlFor="jersey_number">Position</label>
+                            <br />
+                            <select
+                            id = "position"
+                            name = "position"
+                            onChange={formik.handleChange}
+                            value={formik.values.position}
+                            >
+                            <option value="">Select a position</option>
+                            <option value="Guard">Guard</option>
+                            <option value="Center">Center</option>
+                            <option value="Forward">Forward</option>    
+                            </select>
+                            <p>{formik.errors.position}</p>
                         </>
                     ): null}
 

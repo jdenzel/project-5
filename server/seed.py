@@ -11,6 +11,8 @@ from sqlalchemy import text
 # Local imports
 from app import app
 from models import db, User, Profile, Player, Team, League, players_teams
+from profile_data import profile_data
+from player_data import player_data
 
 if __name__ == '__main__':
     fake = Faker()
@@ -31,10 +33,10 @@ if __name__ == '__main__':
 
         users = []
         usernames = []
-        profiles = []
         players = []
+        profiles = []
 
-        for i in range(300):
+        for i in range(120):
 
             username = fake.user_name()
             while username in usernames:
@@ -47,27 +49,61 @@ if __name__ == '__main__':
             )
 
             user.password_hash = user.username + 'password'
-
-            profile = Profile(
-                first_name = fake.first_name_male(),
-                last_name = fake.last_name(),
-                image_url = fake.image_url(),
-                bio = fake.paragraph(),
-                user = user
-            )
-
-            profiles.append(profile)
+            db.session.add(user)
             users.append(user)
 
-            player = Player(
-                jersey_number = randint(1, 99),
-                user = user
-            )
-            players.append(player)
+
+            random.shuffle(profile_data)
+            random.shuffle(player_data)
+
+            for user in users:
+                if profile_data:
+                    profile_info = profile_data.pop()  # Get the last item from the shuffled list
+                    profile = Profile(
+                        first_name=profile_info['first_name'],
+                        last_name=profile_info['last_name'],
+                        image_url=profile_info['image_url'],
+                        bio=profile_info['biography'],
+                        position=profile_info['basketball_position'],
+                        user=user
+                    )
+                    db.session.add(profile)
+
+                if player_data:
+                    player_info = player_data.pop()  # Get the last item from the shuffled list
+                    player = Player(
+                        jersey_number=player_info['basketball jersey_number'],
+                        user=user
+                    )
+                    players.append(player)
+                    db.session.add(player)
+
+        db.session.commit()
+                
+
+        #     profile = Profile(
+        #         first_name = fake.first_name_male(),
+        #         last_name = fake.last_name(),
+        #         image_url = fake.image_url(),
+        #         bio = fake.paragraph(),
+        #         position = rc(['Guard', 'Center', 'Forward']),
+        #         user = user
+        #     )
+
+        #     profiles.append(profile)
+        #     users.append(user)
+
+        #     player = Player(
+        #         jersey_number = randint(1, 99),
+        #         user = user
+        #     )
+        #     players.append(player)
         
-        db.session.add_all(users)
-        db.session.add_all(profiles)
-        db.session.add_all(players)
+        # db.session.add_all(users)
+        # db.session.add_all(profiles)
+        # db.session.add_all(players)
+
+
 
         db.session.commit()
 

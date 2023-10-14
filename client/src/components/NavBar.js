@@ -15,8 +15,8 @@ function NavBar({ user, setUser }) {
   }
 
     return (
-        <div class='nav-container'>
-            <nav class='nav'>
+        <div className='nav-container'>
+            <nav className='nav'>
             <Link to="/players" className={location.pathname === "/players" ? "active" : ""}>Players</Link>
             <Link to="/teams" className={location.pathname === "/teams" ? "active" : ""}>Teams</Link>
             <Link to="/" className={location.pathname === "/" ? "active" : ""}><i class ="fa fa-home w3-xxxlarge"></i></Link>

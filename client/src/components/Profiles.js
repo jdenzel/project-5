@@ -12,6 +12,11 @@ function Profiles() {
 
     return (
         <div>
+            <div className='player-filter'>
+            <ul>
+                <li></li>
+            </ul>
+            </div>
             <h2>Players</h2>
             <div>
                 <ProfileCard profiles={profiles} />

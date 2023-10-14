@@ -13,6 +13,7 @@ class ProfileSchema(Schema):
     last_name = fields.Str()
     image_url = fields.Str()
     bio = fields.Str()
+    position = fields.Str()
 
 
 class PlayerSchema(Schema):

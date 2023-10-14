@@ -2,12 +2,12 @@ import React from "react";
 
 function ProfileCard({ profiles }) {
     return (
-        <div class="player-card">
+        <div class='player-container'>
             {profiles.map((profile, index) => (
-                <div key={index} >
+                <div class="player-card" key={index} >
                     <img src={profile.image_url} alt={profile.first_name} />
-                    <h2>Name: {profile.first_name} {profile.last_name}</h2>
-                    <p>Bio: {profile.bio}</p>
+                    <h2>{profile.first_name} {profile.last_name}</h2>
+                    <p>{profile.position ?? 'N/A'}</p>
                 </div>
             ))}
 

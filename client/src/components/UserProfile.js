@@ -2,16 +2,18 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 function UserProfile() {
-    const [user_profile, setUser_profile] = useState([]);
+    const [user_profile, setUser_profile] = useState({});
     const [isEditing, setIsEditing] = useState(false);
     const [form, setForm] = useState({
         first_name: "",
         last_name: "",
         bio: "",
         image_url: "",
+        position: "",
         // jersey_number: "",
     });
     const history = useHistory();
+    const [isLoggedIn, setIsLoggedIn] = useState(true); 
 
     useEffect(() => {
         fetch("/user_profile")
@@ -34,6 +36,7 @@ function UserProfile() {
             last_name: user_profile.last_name,
             bio: user_profile.bio,
             image_url: user_profile.image_url,
+            position: user_profile.position,
             // jersey_number: user_profile.jersey_number,
         });
         setIsEditing(true);
@@ -52,7 +55,7 @@ function UserProfile() {
         .then((response) => {
             // const updatedProfile = response.updatedProfile
             console.log(response)
-            console.log(response.first_name)
+            console.log(response.position)
             setUser_profile(response);
             setIsEditing(false);
         })
@@ -70,7 +73,9 @@ function UserProfile() {
         })
         .then((r) => {
             if (r.status === 200) {
-                history.push("/");
+                history.push("/login");
+                setIsLoggedIn(false);
+
             }
             else {
                 console.log("Failed to delete Account")
@@ -90,6 +95,7 @@ function UserProfile() {
                     <img src={user_profile.image_url} alt={user_profile.first_name} />
                     <h2>Name: {user_profile.first_name} {user_profile.last_name}</h2>
                     <p>Bio: {user_profile.bio}</p>
+                    <p>Position: {user_profile.position}</p>
                     {/* <p>Jersey Number: {user_profile.jersey_number}</p> */}
                     <button onClick={handleEdit}>Edit</button>
                     <button onClick={handleDelete}>Delete</button>
@@ -127,6 +133,19 @@ function UserProfile() {
                             value={form.image_url}
                             onChange={handleInput}
                         />
+                    </label>
+                    <label>Position: 
+                        <select 
+                            type="text"
+                            name="position"
+                            value={form.position}
+                            onChange={handleInput}
+                        >
+                        <option value="">Select a position</option>
+                        <option value="Guard">Guard</option>
+                        <option value="Center">Center</option>
+                        <option value="Forward">Forward</option>
+                        </select>
                     </label>
                     {/* <label>Jersey Number: 
                         <input 

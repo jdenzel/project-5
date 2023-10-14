@@ -37,7 +37,70 @@ body{
     background-color: #292424;
 }
 
-.player-card {
-    width: 200px;
-    height: 300px;
+.player-container {
+  margin: 0px 215px;
+  display: flex;
+  flex-wrap: wrap;
 }
+
+.player-card {
+    width: 210px;
+    height: 310px;
+    background-color: #1e1e1e;
+    display: block;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: white;
+  }
+
+.player-card h2 {
+  font-size: 20px;
+  font-family: Aoboshi One, sans-serif;
+  padding-left: 5px;
+  margin: 0px 0px;
+}
+
+.player-card p {
+  font-size: 15px;
+  font-family: helvetica;
+  padding-left: 5px;
+}
+
+.player-card img {
+    width: 200px;
+    height: 200px;
+    /* border-radius: 50%; */
+    margin: 5px 5px;
+}
+
+.team-container {
+  margin: 0px 215px;
+  display: flex;
+  flex-wrap: wrap;
+  /* text-align: center; */
+}
+
+.team-card {
+  width: 49%;
+  height: 310px;
+  background-color: #1e1e1e;
+  display: block;
+  
+  
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  color: white;
+}
+
+.team-card img {
+  width: 200px;
+  height: 200px;
+  margin: 5px 5px;
+}
+

@@ -25,6 +25,7 @@ class Signup(Resource):
         last_name = json_data['last_name']
         image_url = json_data['image_url']
         bio = json_data['bio']
+        position = json_data['position']
         jersey_number = json_data['jersey_number']
 
         if username and password:
@@ -40,6 +41,7 @@ class Signup(Resource):
                 last_name = last_name,
                 image_url = image_url,
                 bio = bio,
+                position = position,
                 user = new_user
             )
             db.session.add(new_user_profile)
@@ -107,6 +109,7 @@ class UserProfile(Resource):
         last_name = json_data['last_name']
         image_url = json_data['image_url']
         bio = json_data['bio']
+        position = json_data['position']
         # jersey_number = json_data['jersey_number']
 
         if session.get('user_id'):
@@ -118,6 +121,8 @@ class UserProfile(Resource):
                 profile.image_url = image_url
             if bio in bio:
                 profile.bio = bio
+            if position in position:
+                profile.position = position
             # if jersey_number in jersey_number:
             #     player.jersey_number = jersey_number
 
@@ -139,7 +144,7 @@ class UserProfile(Resource):
             db.session.delete(user)
             db.session.commit()
             session.clear()
-            return {'nessage': 'Account has been deleted'}, 200
+            return {'Message': 'Account has been deleted'}, 200
         else:
             return {'error': 'Unauthorized'}, 401
     

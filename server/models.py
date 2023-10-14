@@ -48,6 +48,7 @@ class Profile(db.Model):
     last_name = db.Column(db.String())
     image_url = db.Column(db.String())
     bio = db.Column(db.String())
+    position = db.Column(db.String())
 
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -55,7 +56,7 @@ class Profile(db.Model):
 
 
     def __repr__(self):
-        return f'<Profile: {self.first_name}, {self.last_name}, {self.image_url}, {self.bio}>'
+        return f'<Profile: {self.first_name}, {self.last_name}, {self.image_url}, {self.bio}>, {self.position}'
     
     def to_dict(self):
         profile_schema = ProfileSchema()

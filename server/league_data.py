@@ -1,0 +1,2 @@
+league_data = [{"id": 1, "name":"Champions League","logo":"https://i.pinimg.com/236x/d8/a4/44/d8a444d9f38c1ad402d84d2895a0db3e.jpg"},
+               {"id": 2,"name":"Enhance League","logo":"https://i.pinimg.com/236x/32/45/69/324569c0d70a25bb4031ece98d3645e8.jpg"}]

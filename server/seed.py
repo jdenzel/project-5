@@ -13,6 +13,8 @@ from app import app
 from models import db, User, Profile, Player, Team, League, players_teams
 from profile_data import profile_data
 from player_data import player_data
+from league_data import league_data
+from team_data import team_data
 
 if __name__ == '__main__':
     fake = Faker()
@@ -58,7 +60,7 @@ if __name__ == '__main__':
 
             for user in users:
                 if profile_data:
-                    profile_info = profile_data.pop()  # Get the last item from the shuffled list
+                    profile_info = profile_data.pop() 
                     profile = Profile(
                         first_name=profile_info['first_name'],
                         last_name=profile_info['last_name'],
@@ -70,7 +72,7 @@ if __name__ == '__main__':
                     db.session.add(profile)
 
                 if player_data:
-                    player_info = player_data.pop()  # Get the last item from the shuffled list
+                    player_info = player_data.pop() 
                     player = Player(
                         jersey_number=player_info['basketball jersey_number'],
                         user=user
@@ -111,32 +113,53 @@ if __name__ == '__main__':
         leagues = []
         teams = []
 
-        for i in range(3):
+        for league_info in league_data:
             league = League(
-                name = fake.company(),
-                logo = fake.image_url(),
+                name = league_info['name'],
+                logo = league_info['logo'],
             )
             leagues.append(league)
-        db.session.add_all(leagues)
+            db.session.add(league)
 
+        for team_info in team_data:
+            team = Team(
+                name = team_info['name'],
+                logo = team_info['logo'],
+                league_id = team_info['league_id']
+            )
+            teams.append(team)
+            db.session.add(team)
+        
         db.session.commit()
 
-        for league in leagues:
-            for i in range(10):
-                team = Team(
-                    name = fake.company(),
-                    logo = fake.image_url(),
-                    league_id = league.id
-                )
-                teams.append(team)
-        db.session.add_all(teams)
 
-        db.session.commit()
+        # for i in range(3):
+        #     league = League(
+        #         name = fake.company(),
+        #         logo = fake.image_url(),
+        #     )
+        #     leagues.append(league)
+        # db.session.add_all(leagues)
+
+        # db.session.commit()
+
+        # for league in leagues:
+        #     for i in range(10):
+        #         team = Team(
+        #             name = fake.company(),
+        #             logo = fake.image_url(),
+        #             league_id = league.id
+        #         )
+        #         teams.append(team)
+        # db.session.add_all(teams)
+
+        # db.session.commit()
 
         players_teams_table = []
 
         for player in players:
             team = rc(teams)
+            print(team)
             players_teams_table.append({
                 'player_id': player.id,
                 'team_id': team.id

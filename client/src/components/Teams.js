@@ -12,7 +12,10 @@ function Teams() {
 
     return (
         <div>
-            <h2>Teams</h2>
+            <div className="team-title">
+            <div className="team-title-separator"></div>
+            <h1>Teams</h1>
+            </div>
             <div>
                 <TeamCard teams={teams} />
             </div>

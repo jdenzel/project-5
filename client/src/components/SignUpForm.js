@@ -186,9 +186,11 @@ const SignUpForm = ({ onLogin }) => {
                             value={formik.values.position}
                             >
                             <option value="">Select a position</option>
-                            <option value="Guard">Guard</option>
+                            <option value="Point Guard">Point Guard</option>
+                            <option value="Shooting Guard">Shooting Guard</option>
                             <option value="Center">Center</option>
-                            <option value="Forward">Forward</option>    
+                            <option value="Small Forward">Small Forward</option>
+                            <option value="Power Forward">Power Forward</option>     
                             </select>
                             <p>{formik.errors.position}</p>
                         </>

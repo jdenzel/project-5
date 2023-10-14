@@ -142,9 +142,11 @@ function UserProfile() {
                             onChange={handleInput}
                         >
                         <option value="">Select a position</option>
-                        <option value="Guard">Guard</option>
-                        <option value="Center">Center</option>
-                        <option value="Forward">Forward</option>
+                            <option value="Point Guard">Point Guard</option>
+                            <option value="Shooting Guard">Shooting Guard</option>
+                            <option value="Center">Center</option>
+                            <option value="Small Forward">Small Forward</option>
+                            <option value="Power Forward">Power Forward</option> 
                         </select>
                     </label>
                     {/* <label>Jersey Number: 

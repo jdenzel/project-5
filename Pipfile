@@ -16,5 +16,6 @@ flask-bcrypt = "*"
 faker = "*"
 marshmallow = "*"
 
+
 [requires]
 python_full_version = "3.8.13"

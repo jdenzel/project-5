@@ -7,7 +7,7 @@ from schemas import UserSchema, ProfileSchema, PlayerSchema, TeamSchema, LeagueS
 from config import db, bcrypt
 
 # Models go here!
-
+#Player and team association table
 players_teams = db.Table('players_teams',
     db.Column('player_id', db.Integer, db.ForeignKey('player.id'), primary_key=True),
     db.Column('team_id', db.Integer, db.ForeignKey('team.id'), primary_key=True)

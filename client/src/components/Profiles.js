@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ProfileCard from "./ProfileCard";
 
+// fetches profile data and returns it to ProfileCard for displaying on webpage
 function Profiles() {
     const [profiles, setProfiles] = useState([]);
 

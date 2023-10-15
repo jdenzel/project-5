@@ -2,6 +2,8 @@ import { useState } from "react";
 import LoginForm from "./LogInForm";
 import SignUpForm from "./SignUpForm";
 
+
+// Login component that displays the login form and signup form
 function Login({ onLogin }) {
     const [showLogin, setShowLogin] = useState(true);
 

@@ -2,6 +2,8 @@ import React from "react";
 import { useFormik } from "formik"
 import * as Yup from "yup"
 
+// LoginForm component that handles user login and authentication
+// use of formik and Yup for form validation
 function LoginForm({ onLogin }) {
     const loginSchema = Yup.object().shape({
         username: Yup.string().required("Username is required"),

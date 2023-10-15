@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import LeagueCard from "./LeagueCard";
 
+// fetches league data and returns it to LeagueCard for displaying on webpage
 function League() {
     const [leagues, setLeagues] = useState([]);
 

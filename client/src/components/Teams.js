@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import TeamCard from "./TeamCard";
 
+// fetches team data and returns it to TeamCard for displaying on webpage
 function Teams() {
     const [teams, setTeam] = useState([]);
 

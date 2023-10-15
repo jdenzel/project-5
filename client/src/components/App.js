@@ -11,6 +11,7 @@ import UserProfile from "./UserProfile";
 function App() {
   const [user, setUser] = useState(null);
 
+  //checks if a user is logged in
   useEffect(() => {
     fetch("/check_session").then((r) => {
       if (r.ok) {
@@ -19,36 +20,39 @@ function App() {
     });
   }, []);
 
+  // if a user is not logged in show Login
   if (!user) return <Login onLogin={setUser} />;
 
   return (
     <main>
-
-          <Router>
-            <Route exact path="/">
-            <div className="main-title">
-              <h2>Welcome to</h2>
-              <h1>Team Manager</h1>
-            </div>
-            </Route>
-            <NavBar  user={user} setUser={setUser} />
-            <Route path="/signup">
-              <SignUpForm />
-            </Route>
-            <Route path="/teams">
-              <Teams />
-            </Route>
-            <Route path="/players">
-              <Profiles />
-            </Route>
-            <Route path="/leagues">
-              <League />
-            </Route>
-            <Route path="/user_profile">
-              <UserProfile />
-            </Route>
-          </Router>
-      </main>
+      <Router>
+        <Route exact path="/">
+        <div className="main-title">
+          <h2>Welcome to</h2>
+          <h1>Team Manager</h1>
+        </div>
+        </Route>
+        <NavBar user={user} setUser={setUser} />
+        <Route path="/signup">
+          <SignUpForm />
+        </Route>
+        <Route path="/teams">
+          <Teams />
+        </Route>
+        <Route path="/players">
+          <Profiles />
+        </Route>
+        <Route path="/leagues">
+          <League />
+        </Route>
+        <Route path="/user_profile">
+          <UserProfile />
+        </Route>
+        <Route path="/login">
+          <Login onLogin={setUser} />
+        </Route>
+      </Router>
+    </main>
   );
 }
 

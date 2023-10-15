@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import Login from "./Login";
 
 function UserProfile( {onLogout }) {
+
+    // sets states
     const [user_profile, setUser_profile] = useState({});
     const [isEditing, setIsEditing] = useState(false);
     const [form, setForm] = useState({
@@ -11,11 +13,11 @@ function UserProfile( {onLogout }) {
         bio: "",
         image_url: "",
         position: "",
-        // jersey_number: "",
     });
     const history = useHistory();
     const [isLoggedOut, setIsLoggedOut] = useState(false);
 
+    // fetches data of user profile
     useEffect(() => {
         fetch("/user_profile")
           .then((r) => r.json())
@@ -38,11 +40,11 @@ function UserProfile( {onLogout }) {
             bio: user_profile.bio,
             image_url: user_profile.image_url,
             position: user_profile.position,
-            // jersey_number: user_profile.jersey_number,
         });
         setIsEditing(true);
     };
 
+    // Handles submission of profile for updating values
     const handleSubmit = (e) => {
         e.preventDefault();
         fetch("/user_profile", {
@@ -54,7 +56,6 @@ function UserProfile( {onLogout }) {
         })
         .then((r) => r.json())
         .then((response) => {
-            // const updatedProfile = response.updatedProfile
             console.log(response)
             console.log(response.position)
             setUser_profile(response);
@@ -65,6 +66,7 @@ function UserProfile( {onLogout }) {
         });
     };
 
+    // Handles deletion of user profile
     const handleDelete = () => {
         fetch("/user_profile", {
             method: "DELETE",
@@ -95,7 +97,7 @@ function UserProfile( {onLogout }) {
     return (
         <div>
             <h2>Profiles</h2>
-            {!isEditing ?(
+            {!isEditing ?( // condition to see if editing is true, if it is false then display the div called user-profile-container if not display the form-edit
                 <div className="user-profile-container">
                     <div className='user-title-separator'>Profile</div>
                         <div className="user-profile">
@@ -105,7 +107,6 @@ function UserProfile( {onLogout }) {
                         <h2>Position: {user_profile.position}</h2>
                         <p>{user_profile.bio}</p>
                         <button className='edit-button' onClick={handleEdit}>Edit</button>
-                        {/* <p>Jersey Number: {user_profile.jersey_number}</p> */}
                         </div>
                     </div>
                 </div>
@@ -169,14 +170,6 @@ function UserProfile( {onLogout }) {
                         </select>
                     </label>
                     </div>
-                    {/* <label>Jersey Number: 
-                        <input 
-                            type="text"
-                            name="jersey_number"
-                            value={form.jersey_number}
-                            onChange={handleInput}
-                        />
-                    </label> */}
                     <button className="save-btn" type="submit">Save</button>
                     <button className="delete-btn" onClick={handleDelete}>Delete</button>
                 </form>

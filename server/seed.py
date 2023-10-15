@@ -20,7 +20,7 @@ if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
         print("Starting seed...")
-        # Seed code goes here!)
+        # Deletes existing data from all tables
         User.query.delete()
         Profile.query.delete()
         Player.query.delete()
@@ -32,7 +32,6 @@ if __name__ == '__main__':
 
 
         # Create Fake users
-
         users = []
         usernames = []
         players = []
@@ -58,6 +57,8 @@ if __name__ == '__main__':
             random.shuffle(profile_data)
             random.shuffle(player_data)
 
+
+            # Creates profile and player from profile_data and player_data
             for user in users:
                 if profile_data:
                     profile_info = profile_data.pop() 
@@ -81,35 +82,9 @@ if __name__ == '__main__':
                     db.session.add(player)
 
         db.session.commit()
-                
-
-        #     profile = Profile(
-        #         first_name = fake.first_name_male(),
-        #         last_name = fake.last_name(),
-        #         image_url = fake.image_url(),
-        #         bio = fake.paragraph(),
-        #         position = rc(['Guard', 'Center', 'Forward']),
-        #         user = user
-        #     )
-
-        #     profiles.append(profile)
-        #     users.append(user)
-
-        #     player = Player(
-        #         jersey_number = randint(1, 99),
-        #         user = user
-        #     )
-        #     players.append(player)
-        
-        # db.session.add_all(users)
-        # db.session.add_all(profiles)
-        # db.session.add_all(players)
 
 
-
-        db.session.commit()
-
-
+        # Creates league and teams from league_data and team_data
         leagues = []
         teams = []
 
@@ -133,28 +108,7 @@ if __name__ == '__main__':
         db.session.commit()
 
 
-        # for i in range(3):
-        #     league = League(
-        #         name = fake.company(),
-        #         logo = fake.image_url(),
-        #     )
-        #     leagues.append(league)
-        # db.session.add_all(leagues)
-
-        # db.session.commit()
-
-        # for league in leagues:
-        #     for i in range(10):
-        #         team = Team(
-        #             name = fake.company(),
-        #             logo = fake.image_url(),
-        #             league_id = league.id
-        #         )
-        #         teams.append(team)
-        # db.session.add_all(teams)
-
-        # db.session.commit()
-
+        # creates association table for players and teams
         players_teams_table = []
 
         for player in players:

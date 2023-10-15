@@ -1,20 +1,14 @@
-#!/usr/bin/env python3
-
-# Standard library imports
-
 # Remote library imports
-from flask import request, session, jsonify
+from flask import request, session
 from flask_restful import Resource
 
 # Local imports
 from config import app, db, api
-# Add your model imports
 
+# Import models
 from models import User, Profile, Player, Team, League
 
-
-# Views go here!
-
+# Signup route, creates a new User, Profile, and Player
 class Signup(Resource):
     def post(self):
         json_data = request.get_json()
@@ -59,17 +53,17 @@ class Signup(Resource):
                 
         else:
             return {'error': 'Unprocessable entity'}, 422
-
+        
+# Check session checks if there's a user logged in
 class CheckSession(Resource):
     def get(self):
         if session.get('user_id'):
             user = User.query.filter(User.id == session['user_id']).first()
-            # player = Player.query.filter(Player.user_id == session['user_id']).first()
             return user.to_dict(), 200
         else:
             return {'error': 'Unauthorized'}, 401
         
-
+# Login route, checks if user is in database and if it is return user
 class Login(Resource):
     def post(self):
         username = request.get_json()['username']
@@ -83,6 +77,7 @@ class Login(Resource):
         else:
             return {'error': 'Unauthorized'}, 401
 
+# Logout route, makes user None
 class Logout(Resource):
     def delete(self):
         if session.get('user_id'):
@@ -91,7 +86,7 @@ class Logout(Resource):
         else:
             return {'error': 'Unauthorized'}, 401
         
-# Player profile, can edit Profile info
+# Player profile, can edit Profile info to update information
 class UserProfile(Resource):
     def get(self):
         if session.get('user_id'):
@@ -102,7 +97,6 @@ class UserProfile(Resource):
         
     def patch(self):
         profile = Profile.query.filter(Profile.user_id == session['user_id']).first()
-        # player = Player.query.filter(Player.user_id == session['user_id']).first()
 
         json_data = request.get_json()
         first_name = json_data['first_name']
@@ -110,7 +104,6 @@ class UserProfile(Resource):
         image_url = json_data['image_url']
         bio = json_data['bio']
         position = json_data['position']
-        # jersey_number = json_data['jersey_number']
 
         if session.get('user_id'):
             if first_name in first_name:
@@ -123,8 +116,6 @@ class UserProfile(Resource):
                 profile.bio = bio
             if position in position:
                 profile.position = position
-            # if jersey_number in jersey_number:
-            #     player.jersey_number = jersey_number
 
             updated_profile = Profile.query.filter(Profile.user_id == session['user_id']).first()
             
@@ -134,6 +125,7 @@ class UserProfile(Resource):
         else:
             return {'error': 'Unauthorized'}, 401
         
+# Delete route, deletes user from the database and clears the session of any current users
     def delete(self):
         if session.get('user_id'):
             profile = Profile.query.filter(Profile.user_id == session['user_id']).first()
@@ -154,20 +146,29 @@ class UserProfile(Resource):
 class TeamList(Resource):
     def get(self):
         teams = Team.query.all()
-        return [team.to_dict() for team in teams], 200
+        if teams:
+            return [team.to_dict() for team in teams], 200
+        else:
+            return {'error': 'Data not Found'}, 204
     
 # List of profiles
 class ProfileList(Resource):
     def get(self):
         profiles = Profile.query.all()
-        return [profile.to_dict() for profile in profiles], 200
+        if profiles:
+            return [profile.to_dict() for profile in profiles], 200
+        else:
+            return {'error': 'Data not Found'}, 204
     
 
 # List of leagues
 class LeagueList(Resource):
     def get(self):
         leagues = League.query.all()
-        return [league.to_dict() for league in leagues], 200
+        if leagues:
+            return [league.to_dict() for league in leagues], 200
+        else: 
+            return {'error': 'Data not Found'}, 204
 
     
 

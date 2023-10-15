@@ -8,7 +8,7 @@ Team manager is a fullstack application that displays profiles, teams, and leagu
 
 Fork and clone this repository then cd into the project. Once you are in the project we will need to run two terminals, one for the front-end part of the application and another for the back end side. In the front-end terminal enter this line `npm start --prefix client`. You should see a browser open up with the the title "Team manager". In the back-end enter this line `cd server` then in a new line enter `python app.py`. With these done you are able to explore the application.
 
-## Video Aplicaiton Showcase
+## Video Application Showcase
 
 [YouTube](https://www.youtube.com/watch?v=k9OYEUDPML4)
 
